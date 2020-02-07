@@ -1,0 +1,8 @@
+C:\Users\Dheeraj_Thodupunuri\Desktop\Dheeraj\Projects\FinancingPMS-.net-core-and-angular-\FinancingPMSSolution\FinancingPMS\bin\Debug\netcoreapp2.1\FinancingPMS.deps.json
+C:\Users\Dheeraj_Thodupunuri\Desktop\Dheeraj\Projects\FinancingPMS-.net-core-and-angular-\FinancingPMSSolution\FinancingPMS\bin\Debug\netcoreapp2.1\FinancingPMS.runtimeconfig.json
+C:\Users\Dheeraj_Thodupunuri\Desktop\Dheeraj\Projects\FinancingPMS-.net-core-and-angular-\FinancingPMSSolution\FinancingPMS\bin\Debug\netcoreapp2.1\FinancingPMS.runtimeconfig.dev.json
+C:\Users\Dheeraj_Thodupunuri\Desktop\Dheeraj\Projects\FinancingPMS-.net-core-and-angular-\FinancingPMSSolution\FinancingPMS\bin\Debug\netcoreapp2.1\FinancingPMS.dll
+C:\Users\Dheeraj_Thodupunuri\Desktop\Dheeraj\Projects\FinancingPMS-.net-core-and-angular-\FinancingPMSSolution\FinancingPMS\obj\Debug\netcoreapp2.1\FinancingPMS.csprojAssemblyReference.cache
+C:\Users\Dheeraj_Thodupunuri\Desktop\Dheeraj\Projects\FinancingPMS-.net-core-and-angular-\FinancingPMSSolution\FinancingPMS\obj\Debug\netcoreapp2.1\FinancingPMS.csproj.CoreCompileInputs.cache
+C:\Users\Dheeraj_Thodupunuri\Desktop\Dheeraj\Projects\FinancingPMS-.net-core-and-angular-\FinancingPMSSolution\FinancingPMS\obj\Debug\netcoreapp2.1\FinancingPMS.AssemblyInfoInputs.cache
+C:\Users\Dheeraj_Thodupunuri\Desktop\Dheeraj\Projects\FinancingPMS-.net-core-and-angular-\FinancingPMSSolution\FinancingPMS\obj\Debug\netcoreapp2.1\FinancingPMS.AssemblyInfo.cs

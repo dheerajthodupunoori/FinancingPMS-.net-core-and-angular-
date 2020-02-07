@@ -13,6 +13,7 @@ using System.Reflection;
 using System.IO;
 using FinancingPMS.Interfaces;
 using FinancingPMS.Services;
+using FinancingPMS.Config;
 
 namespace FinancingPMS
 {
@@ -28,7 +29,7 @@ namespace FinancingPMS
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddControllers();
+            //services.AddControllers();
 
             services.AddSingleton<IConfiguration>(Configuration);
 
@@ -54,16 +55,17 @@ namespace FinancingPMS
                 options.IncludeXmlComments(xmlPath);
             });
 
-            services.AddLogging();
+            services.Configure<AzureConfig>(Configuration.GetSection("AzureKeyValutConfig"));
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-            if (env.IsDevelopment())
-            {
-                app.UseDeveloperExceptionPage();
-            }
+            //if (env.IsDevelopment())
+            //{
+            //    app.UseDeveloperExceptionPage();
+            //}
 
             app.UseStaticFiles();
 
@@ -75,14 +77,14 @@ namespace FinancingPMS
                 c.RoutePrefix = String.Empty;
             });
 
-            app.UseRouting();
+            //app.UseRouting();
 
-            app.UseAuthorization();
+            //app.UseAuthorization();
 
-            app.UseEndpoints(endpoints =>
-            {
-                endpoints.MapControllers();
-            });
+            //app.UseEndpoints(endpoints =>
+            //{
+            //    endpoints.MapControllers();
+            //});
         }
     }
 }
