@@ -1,0 +1,18 @@
+CREATE PROCEDURE dbo.spInsertIntoFirm @Id bigint, @Name varchar(50), @Email varchar(50
+@PhoneNumber varchar(10)
+
+AS
+
+INSERT INTO [dbo].[Firm]
+           ([Id]
+           ,[Name]
+           ,[Email]
+           ,[PhoneNumber]
+          )
+     VALUES
+           (@Id
+           ,@Name
+           ,@Email
+           ,@PhoneNumber
+         )
+GO

@@ -1,0 +1,10 @@
+#registrationContainer {
+  margin-top: 200px;
+  margin-right: auto;
+  margin-left: auto;
+}
+
+.flex-container {
+  display: flex;
+  justify-content: center;
+}

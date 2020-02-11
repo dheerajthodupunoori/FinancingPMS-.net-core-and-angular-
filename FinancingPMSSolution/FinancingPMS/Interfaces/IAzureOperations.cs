@@ -5,8 +5,8 @@ using System.Threading.Tasks;
 
 namespace FinancingPMS.Interfaces
 {
-    public interface IAzureOperations
+    public  interface IAzureOperations
     {
-        string GetConnectionStringFromAzureKeyVault();
+       public  string GetConnectionStringFromAzureKeyVault(string keyVaultName , string secretName);
     }
 }

@@ -5,10 +5,10 @@ using System.Threading.Tasks;
 
 namespace FinancingPMS.Config
 {
-    public class AzureConfig
+    public   class AzureConfig
     {
         public string KeyVaultName { get; set; }
 
-        public string AzureSQLDatabseSecretName { get; set; }
+        public string AzureSQLDatabaseSecretName { get; set; }
     }
 }
