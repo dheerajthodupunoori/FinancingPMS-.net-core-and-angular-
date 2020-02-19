@@ -1,5 +1,6 @@
 import { Component, OnInit } from "@angular/core";
 import { Firm } from "../Models/firm";
+import { RegisterService } from "../Services/register.service";
 
 @Component({
   selector: "app-firm-registration",
@@ -9,7 +10,9 @@ import { Firm } from "../Models/firm";
 export class FirmRegistrationComponent implements OnInit {
   firm = new Firm("", "", "", "");
 
-  constructor() {}
+  private registrationStatus: boolean = true;
+
+  constructor(private registerService: RegisterService) {}
 
   ngOnInit() {}
 
@@ -17,5 +20,7 @@ export class FirmRegistrationComponent implements OnInit {
     return JSON.stringify(this.firm);
   }
 
-  RegisterFirm() {}
+  RegisterFirm() {
+    this.registerService.registerService(this.firm);
+  }
 }

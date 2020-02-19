@@ -7,7 +7,9 @@ import { FormsModule } from "@angular/forms";
 import { FooterComponent } from "./footer/footer.component";
 import { FirmRegistrationComponent } from "./firm-registration/firm-registration.component";
 import { LandingPageComponent } from "./landing-page/landing-page.component";
-import { FirmDetailsComponent } from './firm-details/firm-details.component';
+import { FirmDetailsComponent } from "./firm-details/firm-details.component";
+import { HttpClientModule } from "@angular/common/http";
+import { FirmAdditionalDetailsComponent } from './firm-additional-details/firm-additional-details.component';
 
 const appRoutes: Routes = [
   { path: "", component: LandingPageComponent },
@@ -20,12 +22,14 @@ const appRoutes: Routes = [
     FooterComponent,
     FirmRegistrationComponent,
     LandingPageComponent,
-    FirmDetailsComponent
+    FirmDetailsComponent,
+    FirmAdditionalDetailsComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     FormsModule,
+    HttpClientModule,
     RouterModule.forRoot(
       appRoutes
       // <-- debugging purposes only
