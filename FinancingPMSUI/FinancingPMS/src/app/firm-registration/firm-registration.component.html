@@ -13,13 +13,13 @@
                 type="text"
                 class="form-control"
                 id="Id"
-                [(ngModel)]="firm.FirmId"
-                name="FirmId"
-                #firmId="ngModel"
+                [(ngModel)]="firm.Id"
+                name="Id"
+                #Id="ngModel"
                 required
               />
               <div
-                [hidden]="firmId.valid || firmId.pristine"
+                [hidden]="Id.valid || Id.pristine"
                 class="alert alert-danger"
               >
                 Firm ID is required

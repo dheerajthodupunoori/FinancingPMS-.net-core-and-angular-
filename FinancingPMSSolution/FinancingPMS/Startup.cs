@@ -39,6 +39,16 @@ namespace FinancingPMS
 
             services.Configure<AzureConfig>(Configuration.GetSection("AzureKeyValutConfig"));
 
+            //services.AddCors();
+
+            services.AddCors(options =>
+            {
+                options.AddPolicy("AllowOrigin",
+                    builder => builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
+            });
+
+            services.AddMvc(options => options.EnableEndpointRouting = false);
+
             services.AddSwaggerGen(options =>
             {
                 options.SwaggerDoc("Version1", new Microsoft.OpenApi.Models.OpenApiInfo
@@ -73,6 +83,12 @@ namespace FinancingPMS
             }
 
             app.UseStaticFiles();
+
+            //app.UseCors(builder => builder.WithOrigkins("http://localhost:4200"));
+
+            app.UseCors("AllowOrigin");
+
+            app.UseMvc();
 
             app.UseSwagger();
 

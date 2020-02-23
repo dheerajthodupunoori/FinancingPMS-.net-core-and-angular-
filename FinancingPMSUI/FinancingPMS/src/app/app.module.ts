@@ -9,11 +9,15 @@ import { FirmRegistrationComponent } from "./firm-registration/firm-registration
 import { LandingPageComponent } from "./landing-page/landing-page.component";
 import { FirmDetailsComponent } from "./firm-details/firm-details.component";
 import { HttpClientModule } from "@angular/common/http";
-import { FirmAdditionalDetailsComponent } from './firm-additional-details/firm-additional-details.component';
+import { FirmAdditionalDetailsComponent } from "./firm-additional-details/firm-additional-details.component";
 
 const appRoutes: Routes = [
   { path: "", component: LandingPageComponent },
-  { path: "register-firm", component: FirmRegistrationComponent }
+  { path: "register-firm", component: FirmRegistrationComponent },
+  {
+    path: "firm-additional-details/:firmId",
+    component: FirmAdditionalDetailsComponent
+  }
 ];
 
 @NgModule({

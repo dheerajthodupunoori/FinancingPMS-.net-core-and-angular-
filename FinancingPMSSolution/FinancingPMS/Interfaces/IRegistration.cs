@@ -8,7 +8,7 @@ namespace FinancingPMS.Interfaces
 {
     public interface IRegistration
     {
-        void RegisterFirmOwner(Firm firm);
+       bool RegisterFirmOwner(Firm firm);
 
         //void SaveFirmDetails(FirmAddress firmAddress);
     }

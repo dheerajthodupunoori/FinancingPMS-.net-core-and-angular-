@@ -1,6 +1,7 @@
 ﻿using FinancingPMS.Config;
 using FinancingPMS.Interfaces;
 using FinancingPMS.Models;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Options;
 using System;
@@ -30,25 +31,24 @@ namespace FinancingPMS.Services
         {
             _configuration = configuration;
 
-            //connectionString = _configuration.GetConnectionString("DefaultConnection");
+            connectionString = _configuration.GetConnectionString("DefaultConnection");
 
             azureConfigOptions = azureConfig.Value;
 
             _azureOperations = azureOperations;
 
-            connectionString = _azureOperations.GetConnectionStringFromAzureKeyVault(azureConfigOptions.KeyVaultName , azureConfigOptions.AzureSQLDatabaseSecretName);
+            //connectionString = _azureOperations.GetConnectionStringFromAzureKeyVault(azureConfigOptions.KeyVaultName , azureConfigOptions.AzureSQLDatabaseSecretName);
 
             _connection = new SqlConnection(connectionString);
         }
 
-        public void RegisterFirmOwner(Firm firm)
+        public bool RegisterFirmOwner(Firm firm)
         {
+            bool isRecordInserted = true;
             try
             {
                 using (SqlCommand sqlCommand = new SqlCommand())
                 {
-                    //if (!DoesFirmExists(firm.Id))
-                    //{
                         sqlCommand.Connection = _connection;
                         sqlCommand.CommandType = System.Data.CommandType.StoredProcedure;
                         sqlCommand.CommandText = "spInsertIntoFirm";
@@ -63,17 +63,26 @@ namespace FinancingPMS.Services
                         }
 
                         int rowsAffected = sqlCommand.ExecuteNonQuery();
-                    //}
+
+                    if(rowsAffected > 0)
+                    {
+                        isRecordInserted = true;
+                    }
+                    else
+                    {
+                        isRecordInserted = false;
+                    }
                 }
             }
             catch (Exception ex)
             {
-
+                isRecordInserted = false;
             }
             finally
             {
                 _connection.Close();
             }
+            return isRecordInserted;
         }
 
         private bool DoesFirmExists(int firmId)

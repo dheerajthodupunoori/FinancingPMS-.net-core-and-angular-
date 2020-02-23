@@ -1,6 +1,6 @@
 export class Firm {
   constructor(
-    public FirmId: string,
+    public Id: string,
     public Name: string,
     public Email: string,
     public PhoneNumber: string

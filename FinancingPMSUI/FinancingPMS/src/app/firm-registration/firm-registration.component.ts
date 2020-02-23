@@ -1,6 +1,7 @@
 import { Component, OnInit } from "@angular/core";
 import { Firm } from "../Models/firm";
 import { RegisterService } from "../Services/register.service";
+import { Router } from "@angular/router";
 
 @Component({
   selector: "app-firm-registration",
@@ -12,7 +13,12 @@ export class FirmRegistrationComponent implements OnInit {
 
   private registrationStatus: boolean = true;
 
-  constructor(private registerService: RegisterService) {}
+  private firmRegistrationErrorMessage: string;
+
+  constructor(
+    private registerService: RegisterService,
+    private router: Router
+  ) {}
 
   ngOnInit() {}
 
@@ -21,6 +27,22 @@ export class FirmRegistrationComponent implements OnInit {
   }
 
   RegisterFirm() {
-    this.registerService.registerService(this.firm);
+    this.registerService.registerService(this.firm).subscribe({
+      next: data => {
+        console.error(data);
+      },
+      error: error => {
+        console.error(
+          "There was an error while registering your Firm.Please try again after some time",
+          error
+        );
+        this.firmRegistrationErrorMessage =
+          "There was an error while registering your Firm.Please try again after some time";
+      }
+    });
+
+    if (this.registrationStatus == true) {
+      this.router.navigate(["firm-additional-details", this.firm.Id]);
+    }
   }
 }
