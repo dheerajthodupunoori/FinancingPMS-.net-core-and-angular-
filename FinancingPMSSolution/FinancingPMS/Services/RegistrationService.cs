@@ -42,9 +42,11 @@ namespace FinancingPMS.Services
             _connection = new SqlConnection(connectionString);
         }
 
-        public bool RegisterFirmOwner(Firm firm)
+        public FirmRegistrationResponse RegisterFirmOwner(Firm firm)
         {
-            bool isRecordInserted = true;
+            FirmRegistrationResponse firmRegistrationResponse = new FirmRegistrationResponse();
+            string failureMessage = string.Empty;
+            var errorList = new List<String>();
             try
             {
                 using (SqlCommand sqlCommand = new SqlCommand())
@@ -66,23 +68,29 @@ namespace FinancingPMS.Services
 
                     if(rowsAffected > 0)
                     {
-                        isRecordInserted = true;
+                        firmRegistrationResponse.RegistrationStatus = true;
+                        firmRegistrationResponse.SuccessMessage = "Your Firm Registered successfully";
                     }
                     else
                     {
-                        isRecordInserted = false;
+                        firmRegistrationResponse.RegistrationStatus = false;
+                        failureMessage = "Firm Registration failed";
+                        errorList.Add(failureMessage);
+                        firmRegistrationResponse.ErrorDetails = errorList;
                     }
                 }
             }
             catch (Exception ex)
             {
-                isRecordInserted = false;
+                firmRegistrationResponse.RegistrationStatus = false;
+                errorList.Add(ex.Message);
+                firmRegistrationResponse.ErrorDetails = errorList;
             }
             finally
             {
                 _connection.Close();
             }
-            return isRecordInserted;
+            return firmRegistrationResponse;
         }
 
         private bool DoesFirmExists(int firmId)

@@ -17,7 +17,7 @@ export class FirmDetailsComponent implements OnInit {
     //   this.firmId = params.get("firmId");
     // });
 
-    this.firmId = this._activatedroute.snapshot.params.firmId;
-    console.log(this.firmId);
+    // this.firmId = this._activatedroute.snapshot.params.firmId;
+    // console.log(this.firmId);
   }
 }

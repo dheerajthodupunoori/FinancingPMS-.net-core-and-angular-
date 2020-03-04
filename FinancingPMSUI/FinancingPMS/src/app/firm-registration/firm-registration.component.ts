@@ -9,11 +9,13 @@ import { Router } from "@angular/router";
   styleUrls: ["./firm-registration.component.css"]
 })
 export class FirmRegistrationComponent implements OnInit {
-  firm = new Firm("", "", "", "");
+  public firm :Firm = new Firm("", "" , "", "");
 
-  private registrationStatus: boolean = true;
+  public registrationStatus: boolean;
 
-  private firmRegistrationErrorMessage: string;
+  public firmRegistrationErrorMessage: string;
+
+  public response :any;
 
   constructor(
     private registerService: RegisterService,
@@ -26,23 +28,32 @@ export class FirmRegistrationComponent implements OnInit {
     return JSON.stringify(this.firm);
   }
 
-  RegisterFirm() {
-    this.registerService.registerService(this.firm).subscribe({
-      next: data => {
-        console.error(data);
-      },
-      error: error => {
-        console.error(
-          "There was an error while registering your Firm.Please try again after some time",
-          error
-        );
-        this.firmRegistrationErrorMessage =
-          "There was an error while registering your Firm.Please try again after some time";
-      }
-    });
+//   isNumber(evt) {
+//     console.log(evt);
+//     evt = (evt) ? evt : window.event;
+//     var charCode = (evt.which) ? evt.which : evt.keyCode;
+//     if (charCode > 31 && (charCode < 48 || charCode > 57)) {
+//       event.preventDefault();
+//     }
+// }
 
-    if (this.registrationStatus == true) {
-      this.router.navigate(["firm-additional-details", this.firm.Id]);
-    }
+  async RegisterFirm() {
+    await this.registerService.registerService(this.firm).subscribe(
+      data => {
+        console.log("Firm registration response " , data);
+        this.registrationStatus = data.registrationStatus;
+        console.log("Firm registration status" , this.registrationStatus);
+        if (this.registrationStatus == true) {
+          this.router.navigate(["login"]);
+        }
+        else
+        {
+          this.firmRegistrationErrorMessage = data.errorDetails[0];
+        }
+      }
+     );
+
+
+    
   }
 }

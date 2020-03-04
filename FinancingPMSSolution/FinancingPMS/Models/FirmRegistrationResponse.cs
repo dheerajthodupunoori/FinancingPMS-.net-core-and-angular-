@@ -9,6 +9,11 @@ namespace FinancingPMS.Models
     {
         public bool RegistrationStatus { get; set; }
 
-        public ErrorDetails ErrorDetails { get; set; }
+        //public ErrorDetails ErrorDetails { get; set; }
+
+        public List<string> ErrorDetails { get; set; }
+
+        public string SuccessMessage { get; set; }
+
     }
 }

@@ -10,6 +10,7 @@ import { LandingPageComponent } from "./landing-page/landing-page.component";
 import { FirmDetailsComponent } from "./firm-details/firm-details.component";
 import { HttpClientModule } from "@angular/common/http";
 import { FirmAdditionalDetailsComponent } from "./firm-additional-details/firm-additional-details.component";
+import { LoginComponent } from './login/login.component';
 
 const appRoutes: Routes = [
   { path: "", component: LandingPageComponent },
@@ -17,6 +18,10 @@ const appRoutes: Routes = [
   {
     path: "firm-additional-details/:firmId",
     component: FirmAdditionalDetailsComponent
+  },
+  {
+    path: "login",
+    component: LoginComponent
   }
 ];
 
@@ -27,7 +32,8 @@ const appRoutes: Routes = [
     FirmRegistrationComponent,
     LandingPageComponent,
     FirmDetailsComponent,
-    FirmAdditionalDetailsComponent
+    FirmAdditionalDetailsComponent,
+    LoginComponent
   ],
   imports: [
     BrowserModule,

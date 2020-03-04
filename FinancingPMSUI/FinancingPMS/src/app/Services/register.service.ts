@@ -11,8 +11,28 @@ export class RegisterService {
 
   constructor(private http: HttpClient) {}
 
-  registerService(firm: Firm): Observable<Boolean> {
-    console.log("Firm Details", firm);
-    return this.http.post<Boolean>(this.registerURL, firm);
+  registerService(firm: Firm): Observable<any> {
+    
+
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json; charset=utf-8'
+      })
+    };
+
+    const body ={
+      name : firm.Name,
+      id:firm.Id,
+      email:firm.Email,
+      phoneNumber :firm.PhoneNumber
+    };
+
+    
+     console.log("Firm Details", body);
+
+    
+
+    return this.http.post<any>(this.registerURL,body ,httpOptions
+    );
   }
 }

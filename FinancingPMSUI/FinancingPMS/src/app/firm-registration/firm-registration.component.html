@@ -6,6 +6,10 @@
       <div class="breadcrumb">
         <div class="container">
           <h2>Register your Firm</h2>
+         
+          <div *ngIf="firmRegistrationErrorMessage" class="alert alert-danger" role="alert">
+  {{firmRegistrationErrorMessage}}
+</div>
           <form (ngSubmit)="RegisterFirm()" #registerFirmForm="ngForm">
             <div class="form-group">
               <label for="Id">Firm ID</label>
@@ -15,7 +19,10 @@
                 id="Id"
                 [(ngModel)]="firm.Id"
                 name="Id"
+                maxlength="4"
                 #Id="ngModel"
+                pattern="[0-9]+"
+                placeholder="Please enter 4 digit Firm ID!"
                 required
               />
               <div
@@ -35,6 +42,7 @@
                 [(ngModel)]="firm.Name"
                 name="Name"
                 #firmName="ngModel"
+                placeholder="Enter FisrtName LastName"
                 required
               />
               <div

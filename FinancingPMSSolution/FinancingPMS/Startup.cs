@@ -14,6 +14,9 @@ using System.IO;
 using FinancingPMS.Interfaces;
 using FinancingPMS.Services;
 using FinancingPMS.Config;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
 
 namespace FinancingPMS
 {
@@ -33,9 +36,12 @@ namespace FinancingPMS
 
             services.AddSingleton<IConfiguration>(Configuration);
 
-            services.AddSingleton<IRegistration , RegistrationService>();
+            services.AddSingleton<IRegistration, RegistrationService>();
 
             services.AddSingleton<IAzureOperations, AzureOperations>();
+
+            services.AddSingleton<ILoginService, LoginService>();
+
 
             services.Configure<AzureConfig>(Configuration.GetSection("AzureKeyValutConfig"));
 
@@ -59,8 +65,8 @@ namespace FinancingPMS
                         Name = "Dheeraj Thodupunuri",
                     },
                     Description = "Financing PMS API",
-                    Title="FinancingPMS",
-                    Version="V1"
+                    Title = "FinancingPMS",
+                    Version = "V1"
                 });
 
                 //Including XML comments.
@@ -70,7 +76,25 @@ namespace FinancingPMS
             });
 
 
-            
+            services.AddAuthentication(opt =>
+            {
+                opt.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                opt.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            })
+           .AddJwtBearer(options =>
+           {
+               options.TokenValidationParameters = new TokenValidationParameters
+               {
+                   ValidateIssuer = true,
+                   ValidateAudience = true,
+                   ValidateLifetime = true,
+                   ValidateIssuerSigningKey = true,
+
+                   ValidIssuer = "",
+                   ValidAudience = "",
+                   IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("superSecretKey@345"))
+               };
+   });
 
         }
 
@@ -99,6 +123,8 @@ namespace FinancingPMS
             });
 
             app.UseRouting();
+
+            app.UseAuthentication();
 
             app.UseAuthorization();
 

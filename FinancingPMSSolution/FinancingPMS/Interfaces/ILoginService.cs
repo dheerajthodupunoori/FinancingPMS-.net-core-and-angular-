@@ -6,10 +6,12 @@ using System.Threading.Tasks;
 
 namespace FinancingPMS.Interfaces
 {
-    public interface IRegistration
+    public interface ILoginService
     {
-       FirmRegistrationResponse RegisterFirmOwner(Firm firm);
 
-        //void SaveFirmDetails(FirmAddress firmAddress);
+        public (bool , string) IsFirmRegistered(string FirmId);
+
+
+        public LoginResponse ValidateFirmLogin(LoginDetails loginDetails);
     }
 }

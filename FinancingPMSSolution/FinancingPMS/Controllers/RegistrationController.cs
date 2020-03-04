@@ -35,18 +35,19 @@ namespace FinancingPMS.Controllers
 
         [ActionName("RegisterFirmOwner")]
         [HttpPost]
-        public bool  RegisterFirmOwner([FromBody]Firm firm)
+        public FirmRegistrationResponse  RegisterFirmOwner([FromBody] Firm firm)
         {
-            bool isFirmRegistered = true;
-            if(firm!=null)
+            FirmRegistrationResponse firmRegistrationResponse = null;
+
+            if (firm!=null)
             {
-                isFirmRegistered =  _registrationService.RegisterFirmOwner(firm);
+                 firmRegistrationResponse =  _registrationService.RegisterFirmOwner(firm);
             }
             else
             {
 
             }
-            return isFirmRegistered;
+            return firmRegistrationResponse;
         }
 
         //[ActionName("SaveFirmDetails")]

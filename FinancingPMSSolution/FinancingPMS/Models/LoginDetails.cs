@@ -5,9 +5,11 @@ using System.Threading.Tasks;
 
 namespace FinancingPMS.Models
 {
-    public class ErrorDetails
+    public class LoginDetails
     {
-        public List<string> errorMessages { get; set; } 
 
+        public string FirmId { get; set; }
+
+        public string Password { get; set; }
     }
 }
