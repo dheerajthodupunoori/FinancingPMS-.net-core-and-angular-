@@ -5,7 +5,9 @@
         <div class="breadcrumb">
           <div class="container">
             <h2>Login to your Firm</h2>
-           
+            <div *ngIf="firmRegistrationErrorMessage" class="alert alert-danger" role="alert">
+              {{firmRegistrationErrorMessage}}
+            </div>
             <form (ngSubmit)="LoginFirm(loginFirmForm.value)" #loginFirmForm="ngForm">
               <div class="form-group">
                 <label for="Id">Firm ID</label>
@@ -20,55 +22,35 @@
                   ngModel
                   required
                 />
-                <div
+                <!-- <div
                 [hidden]="loginFirmForm.controls['Id'].valid || loginFirmForm.controls['Id'].pristine"
                 class="alert alert-danger"
               >
                 Firm ID is required
-              </div>
+              </div> -->
                 </div>
+
+
+                <div class="form-group">
+                  <label for="Id">Password</label>
+                  <input
+                    type="password"
+                    class="form-control"
+                    id="password"
+                    name="password"
+                    placeholder="Please enter your password"
+                    ngModel
+                    required
+                  />
+                  <!-- <div
+                  [hidden]="loginFirmForm.controls['password'].valid || loginFirmForm.controls['password'].pristine"
+                  class="alert alert-danger"
+                >
+                  Password is required
+                </div> -->
+                  </div>
   
             
-  
-              <div class="form-group">
-                <label for="Email">Email ID</label>
-                <input
-                  type="email"
-                  class="form-control"
-                  id="Email"
-                  name="Email"
-                  placeholder="example@gmail.com"
-                  ngModel
-                  required
-                />
-                <div
-                [hidden]="loginFirmForm.controls['Email'].valid || loginFirmForm.controls['Email'].pristine"
-                class="alert alert-danger"
-              >
-              Firm Email is required
-              </div>
-              </div>
-  
-              <div class="form-group">
-                <label for="PhoneNumber">Phone Number</label>
-                <input
-                  type="text"
-                  class="form-control"
-                  id="PhoneNumber"
-                  name="PhoneNumber"
-                  placeholder="7680052728"
-                  maxlength="10"
-                  pattern="[0-9]+"
-                  ngModel
-                  required
-                />
-                <div
-                [hidden]="loginFirmForm.controls['PhoneNumber'].valid || loginFirmForm.controls['PhoneNumber'].pristine"
-                class="alert alert-danger"
-              >
-              Please enter valid PhoneNumber
-              </div>
-              </div>
   
               <button
                 type="submit"
