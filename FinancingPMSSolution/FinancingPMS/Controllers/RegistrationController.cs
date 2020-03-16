@@ -24,7 +24,7 @@ namespace FinancingPMS.Controllers
         private IRegistration _registrationService;
 
 
-        public RegistrationController(IConfiguration configuration , IRegistration registrationService )
+        public RegistrationController(IConfiguration configuration, IRegistration registrationService)
         {
             _configuration = configuration;
 
@@ -35,34 +35,39 @@ namespace FinancingPMS.Controllers
 
         [ActionName("RegisterFirmOwner")]
         [HttpPost]
-        public FirmRegistrationResponse  RegisterFirmOwner([FromBody] Firm firm)
+        public FirmRegistrationResponse RegisterFirmOwner([FromBody] Firm firm)
         {
             FirmRegistrationResponse firmRegistrationResponse = null;
 
-            if (firm!=null)
+            if (firm != null)
             {
-                 firmRegistrationResponse =  _registrationService.RegisterFirmOwner(firm);
+                firmRegistrationResponse = _registrationService.RegisterFirmOwner(firm);
             }
             else
             {
-
+                firmRegistrationResponse.RegistrationStatus = false;
             }
             return firmRegistrationResponse;
         }
 
-        //[ActionName("SaveFirmDetails")]
-        //[HttpPost]
-        //public void SaveFirmDetails(FirmAddress firmAddress)
-        //{
-        //    if (firmAddress != null)
-        //    {
-        //        _registrationService.SaveFirmDetails(firmAddress);
-        //    }
-        //    else
-        //    {
+        [HttpPost("saveFirmDetails")]
+        public IActionResult SaveFirmDetails(FirmAddress firmAddress)
+        {
+            if (firmAddress == null)
+            {
+                return BadRequest();
+            }
+            try
+            {
+                _registrationService.SaveFirmDetails(firmAddress);
+            }
+            catch (Exception ex)
+            {
+                return Problem(detail: ex.StackTrace, title: ex.Message, statusCode: 500);
+            }
 
-        //    }
-        //}
+            return Ok();
+        }
 
     }
 }

@@ -132,38 +132,34 @@ namespace FinancingPMS.Services
         }
 
 
-        //public void SaveFirmDetails(FirmAddress firmAddress)
-        //{
-        //    try
-        //    {
-        //        using (SqlCommand sqlCommand = new SqlCommand())
-        //        {
-        //            sqlCommand.Connection = _connection;
-        //            sqlCommand.CommandType = System.Data.CommandType.StoredProcedure;
-        //            sqlCommand.CommandText = "spInsertIntoFirmDetails";
-        //            sqlCommand.Parameters.AddWithValue("Address1", firmAddress.Address1);
-        //            sqlCommand.Parameters.AddWithValue("Address2", firmAddress.Address2);
-        //            sqlCommand.Parameters.AddWithValue("City", firmAddress.City);
-        //            sqlCommand.Parameters.AddWithValue("State", firmAddress.State);
-        //            sqlCommand.Parameters.AddWithValue("Zip", firmAddress.Zip);
-        //            sqlCommand.Parameters.AddWithValue("FirmId", firmAddress.FirmId);
+        public void SaveFirmDetails(FirmAddress firmAddress)
+        {
+            try
+            {
+                using (SqlCommand sqlCommand = new SqlCommand())
+                {
+                    sqlCommand.Connection = _connection;
+                    sqlCommand.CommandType = System.Data.CommandType.StoredProcedure;
+                    sqlCommand.CommandText = "spInsertIntoFirmDetails";
+                    sqlCommand.Parameters.AddWithValue("Address1", firmAddress.Address1);
+                    sqlCommand.Parameters.AddWithValue("Address2", firmAddress.Address2);
+                    sqlCommand.Parameters.AddWithValue("City", firmAddress.City);
+                    sqlCommand.Parameters.AddWithValue("State", firmAddress.State);
+                    sqlCommand.Parameters.AddWithValue("Zip", firmAddress.Zip);
+                    sqlCommand.Parameters.AddWithValue("FirmId", firmAddress.FirmId);
 
-        //            if (_connection.State == System.Data.ConnectionState.Closed)
-        //            {
-        //                _connection.Open();
-        //            }
+                    if (_connection.State == System.Data.ConnectionState.Closed)
+                    {
+                        _connection.Open();
+                    }
 
-        //            int rowsAffected = sqlCommand.ExecuteNonQuery();
-        //        }
-        //    }
-        //    catch (Exception ex)
-        //    {
-
-        //    }
-        //    finally
-        //    {
-        //        _connection.Close();
-        //    }
-        //}
+                    int rowsAffected = sqlCommand.ExecuteNonQuery();
+                }
+            }
+            finally
+            {
+                _connection.Close();
+            }
+        }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using FinancingPMS.Models;
+using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,6 +11,6 @@ namespace FinancingPMS.Interfaces
     {
        FirmRegistrationResponse RegisterFirmOwner(Firm firm);
 
-        //void SaveFirmDetails(FirmAddress firmAddress);
+       void SaveFirmDetails(FirmAddress firmAddress);
     }
 }

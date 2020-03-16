@@ -7,6 +7,135 @@
       <div class="breadcrumb">
         <div class="container">
           <h2>Enter Firm details</h2>
+          <div *ngIf="errorMessage" class="alert alert-danger" role="alert">
+            {{ errorMessage }}
+          </div>
+          <form (ngSubmit)="SaveFirmDetails()" #firmDetailsForm="ngForm">
+            <div class="form-group">
+              <label for="Address1">Address1</label>
+              <input
+                type="text"
+                class="form-control"
+                id="Address1"
+                [(ngModel)]="firmDetails.Address1"
+                #Address1="ngModel"
+                name="Address1"
+                required
+              />
+              <div
+                [hidden]="Address1.valid || Address1.pristine"
+                class="alert alert-danger"
+              >
+                Address1 is required
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="Address2">Address2</label>
+              <input
+                type="text"
+                class="form-control"
+                id="Address2"
+                [(ngModel)]="firmDetails.Address2"
+                #Address2="ngModel"
+                name="Address2"
+                required
+              />
+              <div
+                [hidden]="Address2.valid || Address2.pristine"
+                class="alert alert-danger"
+              >
+                Address1 is required
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="City">City</label>
+              <input
+                type="text"
+                class="form-control"
+                id="City"
+                [(ngModel)]="firmDetails.City"
+                #City="ngModel"
+                name="City"
+                required
+              />
+              <div
+                [hidden]="City.valid || City.pristine"
+                class="alert alert-danger"
+              >
+                Address1 is required
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="State">State</label>
+              <input
+                type="text"
+                class="form-control"
+                id="State"
+                [(ngModel)]="firmDetails.State"
+                #State="ngModel"
+                name="State"
+                required
+              />
+              <div
+                [hidden]="State.valid || State.pristine"
+                class="alert alert-danger"
+              >
+                Address1 is required
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="Zip">Zip</label>
+              <input
+                type="text"
+                class="form-control"
+                id="Zip"
+                [(ngModel)]="firmDetails.Zip"
+                #Zip="ngModel"
+                name="Zip"
+                required
+              />
+              <div
+                [hidden]="Zip.valid || Zip.pristine"
+                class="alert alert-danger"
+              >
+                Zip is required
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="Id">Firm ID</label>
+              <input
+                type="text"
+                class="form-control"
+                id="Id"
+                [(ngModel)]="firmDetails.FirmId"
+                name="Id"
+                maxlength="4"
+                #Id="ngModel"
+                pattern="[0-9]+"
+                placeholder="Please enter 4 digit Firm ID!"
+                required
+              />
+              <div
+                [hidden]="Id.valid || Id.pristine"
+                class="alert alert-danger"
+              >
+                Firm ID is required
+              </div>
+            </div>
+
+            <button
+              type="submit"
+              class="btn btn-success"
+              [disabled]="!firmDetailsForm.form.valid"
+            >
+              Save Details
+            </button>
+          </form>
         </div>
       </div>
     </div>

@@ -11,6 +11,7 @@ import { HttpClientModule } from "@angular/common/http";
 import { FirmAdditionalDetailsComponent } from "./firm-additional-details/firm-additional-details.component";
 import { LoginComponent } from './login/login.component';
 import { CustomerLoginComponent } from './customer-login/customer-login.component';
+import { OwnerDashboardComponent } from './owner-dashboard/owner-dashboard.component';
 
 const appRoutes: Routes = [
   { path: "", component: LandingPageComponent },
@@ -26,6 +27,10 @@ const appRoutes: Routes = [
   {
     path: "customer-login",
     component: CustomerLoginComponent
+  },
+  {
+    path: "owner-dashboard",
+    component: OwnerDashboardComponent
   }
 ];
 
@@ -37,7 +42,8 @@ const appRoutes: Routes = [
     LandingPageComponent,
     FirmAdditionalDetailsComponent,
     LoginComponent,
-    CustomerLoginComponent
+    CustomerLoginComponent,
+    OwnerDashboardComponent
   ],
   imports: [
     BrowserModule,

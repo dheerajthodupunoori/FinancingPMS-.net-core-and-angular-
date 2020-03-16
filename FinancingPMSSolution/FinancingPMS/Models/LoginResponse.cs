@@ -16,5 +16,7 @@ namespace FinancingPMS.Models
 
         public string jsonToken { get; set; }
 
+        public bool AreFirmDetailsSaved { get; set; }
+
     }
 }

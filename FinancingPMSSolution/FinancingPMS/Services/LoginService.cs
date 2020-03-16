@@ -103,6 +103,7 @@ namespace FinancingPMS.Services
                             loginResponse.LoginStatus = true;
 
 
+                            //creating JWT token
 
                             var secretKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("superSecretKey@345"));
                             var signinCredentials = new SigningCredentials(secretKey, SecurityAlgorithms.HmacSha256);
@@ -118,10 +119,25 @@ namespace FinancingPMS.Services
                             var tokenString = new JwtSecurityTokenHandler().WriteToken(tokeOptions);
 
                             loginResponse.jsonToken = tokenString;
+
+                            //just checking whether firm details are saved or not.
+
+                            //if(AreFirmDetailsSaved(loginDetails.FirmId))
+                            //{
+                            //    loginResponse.AreFirmDetailsSaved = true;
+                            //}
+
+                            //else
+                            //{
+                            //    loginResponse.AreFirmDetailsSaved = false;
+                            //}
+
+
+
                         }
                         else
                         {
-                            loginResponse.ErrorMessage = "Incorrect Passowrd.Please enter valid Password.";
+                            loginResponse.ErrorMessage = "Incorrect Passowrd.Please enter valid credentials.";
                             loginResponse.LoginStatus = false;
                         }
                     }
@@ -141,6 +157,44 @@ namespace FinancingPMS.Services
             }
 
             return loginResponse;
+        }
+
+
+
+        private bool AreFirmDetailsSaved(string firmID)
+        {
+            bool areDetailsSaved = false;
+            //SqlDataReader reader = new SqlDataReader();
+
+            try
+            {
+
+                using (SqlCommand command = new SqlCommand())
+                {
+                    command.Connection = _connection;
+                    command.CommandType = CommandType.Text;
+                    command.CommandText = @"SELECT * FROM FirmDetails WHERE FirmId=@Id";
+                    command.Parameters.AddWithValue("@Id", firmID);
+
+                    if (_connection.State == ConnectionState.Closed)
+                    {
+                        _connection.Open();
+                    }
+                    using (SqlDataReader reader = command.ExecuteReader())
+                    {
+                        if (reader.HasRows)
+                        {
+                            areDetailsSaved = true;
+                        }
+                    }
+                }
+            }
+            finally
+            {
+                _connection.Close();
+            }
+
+            return areDetailsSaved;
         }
     }
 }

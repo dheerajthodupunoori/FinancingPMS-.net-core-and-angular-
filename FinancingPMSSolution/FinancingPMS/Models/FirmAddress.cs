@@ -17,6 +17,6 @@ namespace FinancingPMS.Models
 
         public string Zip { get; set; }
 
-        public int FirmId { get; set; }
+        public string FirmId { get; set; }
     }
 }
