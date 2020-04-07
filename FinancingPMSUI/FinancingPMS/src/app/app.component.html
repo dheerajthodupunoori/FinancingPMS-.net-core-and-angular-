@@ -1,4 +1,4 @@
-<nav class="navbar navbar-dark bg-dark">
+<nav class="navbar navbar-dark bg-dark fixed-top">
   <a class="navbar-brand" href="#">Home</a>
 
   <ul class="navbar">
@@ -8,11 +8,11 @@
     <li class="nav-item">
       <a class="navbar-brand" href="#">Contactus</a>
     </li>
-    <li class="nav-item" *ngIf = "loginStatus">
-      <a class="navbar-brand" href="">Logout</a>
+    <li class="nav-item" *ngIf="loginStatus">
+      <a class="navbar-brand btn" href="#" (click)="Logout()">Logout</a>
     </li>
   </ul>
 </nav>
 
 <router-outlet></router-outlet>
-<app-footer></app-footer>
+<!-- <app-footer></app-footer> -->

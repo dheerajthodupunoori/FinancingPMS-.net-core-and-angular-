@@ -9,29 +9,38 @@ import { FirmRegistrationComponent } from "./firm-registration/firm-registration
 import { LandingPageComponent } from "./landing-page/landing-page.component";
 import { HttpClientModule } from "@angular/common/http";
 import { FirmAdditionalDetailsComponent } from "./firm-additional-details/firm-additional-details.component";
-import { LoginComponent } from './login/login.component';
-import { CustomerLoginComponent } from './customer-login/customer-login.component';
-import { OwnerDashboardComponent } from './owner-dashboard/owner-dashboard.component';
+import { LoginComponent } from "./login/login.component";
+import { CustomerLoginComponent } from "./customer-login/customer-login.component";
+import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
+import { MatSidenavModule } from "@angular/material/sidenav";
+import { MatMenuModule } from "@angular/material/menu";
 
 const appRoutes: Routes = [
   { path: "", component: LandingPageComponent },
   { path: "register-firm", component: FirmRegistrationComponent },
   {
     path: "firm-additional-details/:firmId",
-    component: FirmAdditionalDetailsComponent
+    component: FirmAdditionalDetailsComponent,
   },
   {
     path: "login",
-    component: LoginComponent
+    component: LoginComponent,
   },
   {
     path: "customer-login",
-    component: CustomerLoginComponent
+    component: CustomerLoginComponent,
   },
+  // {
+  //   path: "owner-dashboard/:firmId",
+  //   component: OwnerDashboardComponent,
+  // },
   {
-    path: "owner-dashboard",
-    component: OwnerDashboardComponent
-  }
+    path: "owner-dashboard/:firmId",
+    loadChildren: () =>
+      import("./owner-dashboard/owner-dashboard.module").then(
+        (m) => m.DashboardModule
+      ),
+  },
 ];
 
 @NgModule({
@@ -43,7 +52,6 @@ const appRoutes: Routes = [
     FirmAdditionalDetailsComponent,
     LoginComponent,
     CustomerLoginComponent,
-    OwnerDashboardComponent
   ],
   imports: [
     BrowserModule,
@@ -53,9 +61,12 @@ const appRoutes: Routes = [
     RouterModule.forRoot(
       appRoutes
       // <-- debugging purposes only
-    )
+    ),
+    BrowserAnimationsModule,
+    MatSidenavModule,
+    MatMenuModule,
   ],
   providers: [],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
 export class AppModule {}

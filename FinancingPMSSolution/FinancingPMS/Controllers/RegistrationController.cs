@@ -51,7 +51,7 @@ namespace FinancingPMS.Controllers
         }
 
         [HttpPost("saveFirmDetails")]
-        public IActionResult SaveFirmDetails(FirmAddress firmAddress)
+        public IActionResult SaveFirmDetails([FromBody] FirmAddress firmAddress)
         {
             if (firmAddress == null)
             {

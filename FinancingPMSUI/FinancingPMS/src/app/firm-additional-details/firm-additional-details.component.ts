@@ -1,6 +1,6 @@
 import { Component, OnInit } from "@angular/core";
 import { FirmDetails } from "../Models/firm-details";
-import { ActivatedRoute } from "@angular/router";
+import { ActivatedRoute, Router } from "@angular/router";
 import { RegisterService } from "../Services/register.service";
 
 @Component({
@@ -15,7 +15,8 @@ export class FirmAdditionalDetailsComponent implements OnInit {
 
   constructor(
     private route: ActivatedRoute,
-    private _registerService: RegisterService
+    private _registerService: RegisterService,
+    private router: Router
   ) {}
 
   ngOnInit() {
@@ -27,6 +28,7 @@ export class FirmAdditionalDetailsComponent implements OnInit {
     this._registerService.saveFirmDetails(this.firmDetails).subscribe(
       data => {
         console.log(data);
+        this.router.navigate(["owner-dashboard", this.firmDetails.FirmId]);
       },
       error => {
         console.log(error);

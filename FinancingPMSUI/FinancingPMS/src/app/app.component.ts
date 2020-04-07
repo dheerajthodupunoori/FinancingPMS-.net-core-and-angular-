@@ -1,31 +1,28 @@
-import { Component } from '@angular/core';
-import {LoginService} from "./Services/login.service";
-
+import { Component } from "@angular/core";
+import { LoginService } from "./Services/login.service";
 
 @Component({
-  selector: 'app-root',
-  templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css']
+  selector: "app-root",
+  templateUrl: "./app.component.html",
+  styleUrls: ["./app.component.css"]
 })
 export class AppComponent {
-  title = 'FinancingPMS';
+  title = "FinancingPMS";
 
-  public loginStatus : boolean;
+  public loginStatus: boolean;
 
-constructor(private _loginService : LoginService)
-{
-
-}
+  constructor(private _loginService: LoginService) {}
   ngOnInit() {
-
     // this.loginStatus = Boolean(localStorage.getItem("loginStatus"));
 
-    this._loginService.loginStatusSubject.subscribe(
-      data => {
-        console.log("Login status subject in app component " , data);
-        this.loginStatus = Boolean(data);
-      }
-    );
+    this._loginService.loginStatusSubject.subscribe(data => {
+      console.log("Login status subject in app component ", data);
+      this.loginStatus = Boolean(data);
+    });
+  }
 
+  Logout() {
+    // this._loginService.updateLoginStatus("false");
+    localStorage.clear();
   }
 }

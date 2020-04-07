@@ -1,1 +1,33 @@
-<p>owner-dashboard works!</p>
+<div class="container dashboard">
+  <div class="sidenav">
+    <div></div>
+
+    <a class="btn" routerLink="dashboard" selected>
+      Dashboard
+    </a>
+
+    <a class="btn">
+      List of Customers
+    </a>
+
+    <a class="btn">
+      Create Customer
+    </a>
+
+    <a class="btn">
+      Create Agreement
+    </a>
+
+    <a class="btn">
+      Active Customers/Accounts
+    </a>
+
+    <a class="btn">
+      Available Loan Types
+    </a>
+  </div>
+
+  <div class="main">
+    <router-outlet></router-outlet>
+  </div>
+</div>

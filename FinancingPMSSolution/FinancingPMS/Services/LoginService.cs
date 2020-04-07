@@ -90,15 +90,20 @@ namespace FinancingPMS.Services
                     {
                         _connection.Open();
                     }
-                    reader = command.ExecuteReader();
-                    if (reader.HasRows)
+                    using (reader = command.ExecuteReader())
                     {
-                        while (reader.Read())
+
+                        if (reader.HasRows)
                         {
-                             password = reader["Password"].ToString();
-                             firmId = reader["Id"].ToString();
+                            while (reader.Read())
+                            {
+                                password = reader["Password"].ToString();
+                                firmId = reader["Id"].ToString();
+                            }
                         }
-                        if(loginDetails.Password.Equals(password) && loginDetails.FirmId.Equals(firmId))
+                    }
+
+                    if (loginDetails.Password.Equals(password) && loginDetails.FirmId.Equals(firmId))
                         {
                             loginResponse.LoginStatus = true;
 
@@ -122,25 +127,25 @@ namespace FinancingPMS.Services
 
                             //just checking whether firm details are saved or not.
 
-                            //if(AreFirmDetailsSaved(loginDetails.FirmId))
-                            //{
-                            //    loginResponse.AreFirmDetailsSaved = true;
-                            //}
+                            if (AreFirmDetailsSaved(loginDetails.FirmId))
+                            {
+                                loginResponse.AreFirmDetailsSaved = true;
+                            }
 
-                            //else
-                            //{
-                            //    loginResponse.AreFirmDetailsSaved = false;
-                            //}
+                            else
+                            {
+                                loginResponse.AreFirmDetailsSaved = false;
+                            }
 
 
 
                         }
                         else
                         {
-                            loginResponse.ErrorMessage = "Incorrect Passowrd.Please enter valid credentials.";
+                            //loginResponse.ErrorMessage = "Incorrect Passowrd.Please enter valid credentials.";
                             loginResponse.LoginStatus = false;
+                            throw new Exception("Incorrect Passowrd.Please enter valid credentials.");
                         }
-                    }
                 }
 
             }
@@ -153,7 +158,6 @@ namespace FinancingPMS.Services
             finally
             {
                 _connection.Close();
-                reader.Close();
             }
 
             return loginResponse;
@@ -164,7 +168,7 @@ namespace FinancingPMS.Services
         private bool AreFirmDetailsSaved(string firmID)
         {
             bool areDetailsSaved = false;
-            //SqlDataReader reader = new SqlDataReader();
+            SqlDataReader reader = null;
 
             try
             {
@@ -180,7 +184,7 @@ namespace FinancingPMS.Services
                     {
                         _connection.Open();
                     }
-                    using (SqlDataReader reader = command.ExecuteReader())
+                    using (reader = command.ExecuteReader())
                     {
                         if (reader.HasRows)
                         {
@@ -192,6 +196,7 @@ namespace FinancingPMS.Services
             finally
             {
                 _connection.Close();
+                reader.Close();
             }
 
             return areDetailsSaved;
