@@ -30,6 +30,26 @@ import { LoanTypesComponent } from "../loan-types/loan-types.component";
             path: "dashboard",
             component: OwnerDashboardDetailsComponent,
           },
+          {
+            path: "customers-list",
+            component: CustomersListComponent,
+          },
+          {
+            path: "create-customer",
+            component: CreateCustomerComponent,
+          },
+          {
+            path: "create-agreement",
+            component: CreateAgreementComponent,
+          },
+          {
+            path: "active-accounts",
+            component: ActiveAccountsComponent,
+          },
+          {
+            path: "loan-types",
+            component: LoanTypesComponent,
+          },
         ],
       },
     ]),

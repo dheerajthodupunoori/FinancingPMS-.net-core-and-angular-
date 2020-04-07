@@ -4,7 +4,7 @@ import { ActivatedRoute } from "@angular/router";
 @Component({
   selector: "app-owner-dashboard",
   templateUrl: "./owner-dashboard.component.html",
-  styleUrls: ["./owner-dashboard.component.css"]
+  styleUrls: ["./owner-dashboard.component.css"],
 })
 export class OwnerDashboardComponent implements OnInit {
   public firmId: String = "";
@@ -18,13 +18,13 @@ export class OwnerDashboardComponent implements OnInit {
       path: "/table-list",
       title: "Table List",
       icon: "content_paste",
-      class: ""
+      class: "",
     },
     {
       path: "/typography",
       title: "Typography",
       icon: "library_books",
-      class: ""
+      class: "",
     },
     { path: "/icons", title: "Icons", icon: "bubble_chart", class: "" },
     { path: "/maps", title: "Maps", icon: "location_on", class: "" },
@@ -32,14 +32,14 @@ export class OwnerDashboardComponent implements OnInit {
       path: "/notifications",
       title: "Notifications",
       icon: "notifications",
-      class: ""
+      class: "",
     },
     {
       path: "/upgrade",
       title: "Upgrade to PRO",
       icon: "unarchive",
-      class: "active-pro"
-    }
+      class: "active-pro",
+    },
   ];
 
   constructor(private route: ActivatedRoute) {}
@@ -47,6 +47,6 @@ export class OwnerDashboardComponent implements OnInit {
   ngOnInit() {
     //getting firmID from route using ActivatedRoute
     this.firmId = this.route.snapshot.params["firmId"];
-    this.menuItems = this.ROUTES.filter(menuItem => menuItem);
+    this.menuItems = this.ROUTES.filter((menuItem) => menuItem);
   }
 }
