@@ -4,7 +4,7 @@ import { LoginService } from "./Services/login.service";
 @Component({
   selector: "app-root",
   templateUrl: "./app.component.html",
-  styleUrls: ["./app.component.css"]
+  styleUrls: ["./app.component.css"],
 })
 export class AppComponent {
   title = "FinancingPMS";
@@ -15,7 +15,7 @@ export class AppComponent {
   ngOnInit() {
     // this.loginStatus = Boolean(localStorage.getItem("loginStatus"));
 
-    this._loginService.loginStatusSubject.subscribe(data => {
+    this._loginService.loginStatusSubject.subscribe((data) => {
       console.log("Login status subject in app component ", data);
       this.loginStatus = Boolean(data);
     });
@@ -23,6 +23,6 @@ export class AppComponent {
 
   Logout() {
     // this._loginService.updateLoginStatus("false");
-    localStorage.clear();
+    sessionStorage.clear();
   }
 }

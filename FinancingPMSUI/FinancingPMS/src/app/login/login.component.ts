@@ -5,7 +5,7 @@ import { Router } from "@angular/router";
 @Component({
   selector: "app-login",
   templateUrl: "./login.component.html",
-  styleUrls: ["./login.component.css"]
+  styleUrls: ["./login.component.css"],
 })
 export class LoginComponent implements OnInit {
   public loginErrorMessage: string = "";
@@ -16,9 +16,10 @@ export class LoginComponent implements OnInit {
 
   LoginFirm(loginData) {
     this._loginService.login(loginData).subscribe(
-      response => {
+      (response) => {
         console.log(response);
-        localStorage.setItem("jwt", response.jsonToken);
+        // localStorage.setItem("jwt", response.jsonToken);
+        sessionStorage.setItem("jwt", response.jsonToken);
         //  localStorage.setItem("loginStatus" , response.loginStatus);
         this._loginService.updateLoginStatus(response.loginStatus);
         if (
@@ -36,7 +37,7 @@ export class LoginComponent implements OnInit {
           this.loginErrorMessage = response.errorMessage;
         }
       },
-      error => {
+      (error) => {
         console.log(error);
         this.loginErrorMessage = error.message;
       }

@@ -14,6 +14,12 @@ import { CustomerLoginComponent } from "./customer-login/customer-login.componen
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { MatSidenavModule } from "@angular/material/sidenav";
 import { MatMenuModule } from "@angular/material/menu";
+import { JwtModule } from "@auth0/angular-jwt";
+import { AuthGuard } from "./auth-guards/authguard";
+
+export function tokenGetter() {
+  return localStorage.getItem("jwt");
+}
 
 const appRoutes: Routes = [
   { path: "", component: LandingPageComponent },
@@ -40,6 +46,7 @@ const appRoutes: Routes = [
       import("./owner-dashboard/owner-dashboard.module").then(
         (m) => m.DashboardModule
       ),
+    canActivate: [AuthGuard],
   },
 ];
 
@@ -65,8 +72,15 @@ const appRoutes: Routes = [
     BrowserAnimationsModule,
     MatSidenavModule,
     MatMenuModule,
+    JwtModule.forRoot({
+      config: {
+        tokenGetter: tokenGetter,
+        whitelistedDomains: ["http://localhost:49366/"],
+        blacklistedRoutes: [],
+      },
+    }),
   ],
-  providers: [],
+  providers: [AuthGuard],
   bootstrap: [AppComponent],
 })
 export class AppModule {}
