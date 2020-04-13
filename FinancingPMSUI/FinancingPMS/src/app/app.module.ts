@@ -16,6 +16,7 @@ import { MatSidenavModule } from "@angular/material/sidenav";
 import { MatMenuModule } from "@angular/material/menu";
 import { JwtModule } from "@auth0/angular-jwt";
 import { AuthGuard } from "./auth-guards/authguard";
+import { NavbarComponent } from './navbar/navbar.component';
 
 export function tokenGetter() {
   return localStorage.getItem("jwt");
@@ -59,6 +60,7 @@ const appRoutes: Routes = [
     FirmAdditionalDetailsComponent,
     LoginComponent,
     CustomerLoginComponent,
+    NavbarComponent,
   ],
   imports: [
     BrowserModule,

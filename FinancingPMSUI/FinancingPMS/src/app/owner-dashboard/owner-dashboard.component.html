@@ -1,68 +1,32 @@
-<div class="container dashboard">
-  <div class="sidenav">
-    <div></div>
+<div class="row">
+  <div class="col-md-2 col-sm-12">
+    <div class="sidenav">
+      <a routerLink="dashboard" routerLinkActive="selected-anchor-tag">
+        <i class="fa fa-tachometer fa-lg" aria-hidden="true"
+          >&nbsp; &nbsp;Dashboard</i
+        >
+      </a>
 
-    <a
-      class="btn icon"
-      routerLink="dashboard"
-      routerLinkActive="selected-anchor-tag"
-    >
-      <i class="material-icons icon">dashboard</i>
-      <p>Dashboard</p>
-    </a>
+      <a routerLink="customers-list" routerLinkActive="selected-anchor-tag">
+        <i class="fa fa-list-ul fa-lg"> &nbsp; &nbsp;List of Customers </i>
+      </a>
 
-    <a
-      class="btn"
-      routerLink="customers-list"
-      routerLinkActive="selected-anchor-tag"
-    >
-      <i class="material-icons">content_paste</i>
+      <a routerLink="create-customer" routerLinkActive="selected-anchor-tag">
+        <i class="fa fa-plus fa-lg">&nbsp; &nbsp;Create Customer</i>
+      </a>
 
-      <p>List of Customers</p>
-    </a>
+      <a routerLink="create-agreement" routerLinkActive="selected-anchor-tag">
+        <i class="fa fa-plus fa-lg">&nbsp; &nbsp;Create Agreement</i>
+      </a>
 
-    <a
-      class="btn"
-      routerLink="create-customer"
-      routerLinkActive="selected-anchor-tag"
-    >
-      <i class="material-icons">create</i>
-
-      <p>Create Customer</p>
-    </a>
-
-    <a
-      class="btn"
-      routerLink="create-agreement"
-      routerLinkActive="selected-anchor-tag"
-    >
-      <i class="material-icons">create</i>
-
-      <p>Create Agreement</p>
-    </a>
-
-    <a
-      class="btn"
-      routerLink="active-accounts"
-      routerLinkActive="selected-anchor-tag"
-    >
-      <i class="material-icons">content_paste</i>
-
-      <p>Active Customers/Accounts</p>
-    </a>
-
-    <a
-      class="btn"
-      routerLink="loan-types"
-      routerLinkActive="selected-anchor-tag"
-    >
-      <i class="material-icons">content_paste</i>
-
-      <p>Available Loan Types</p>
-    </a>
+      <a routerLink="loan-types" routerLinkActive="selected-anchor-tag">
+        <i class="fa fa-list-ul fa-lg">&nbsp; &nbsp; Loan Types</i>
+      </a>
+    </div>
   </div>
-
-  <div class="main">
-    <router-outlet></router-outlet>
+  <div class="col-md-10 col-sm-12">
+    <div class="main">
+      <router-outlet></router-outlet>
+    </div>
   </div>
 </div>

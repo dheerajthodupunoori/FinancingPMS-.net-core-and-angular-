@@ -14,15 +14,14 @@ export class AppComponent {
   constructor(private _loginService: LoginService) {}
   ngOnInit() {
     // this.loginStatus = Boolean(localStorage.getItem("loginStatus"));
-
-    this._loginService.loginStatusSubject.subscribe((data) => {
-      console.log("Login status subject in app component ", data);
-      this.loginStatus = Boolean(data);
-    });
+    // this._loginService.loginStatusSubject.subscribe((data) => {
+    //   console.log("Login status subject in app component ", data);
+    //   this.loginStatus = Boolean(data);
+    // });
   }
 
-  Logout() {
-    // this._loginService.updateLoginStatus("false");
-    sessionStorage.clear();
-  }
+  // Logout() {
+  //   // this._loginService.updateLoginStatus("false");
+  //   sessionStorage.clear();
+  // }
 }
