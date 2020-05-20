@@ -17,6 +17,10 @@ import { MatMenuModule } from "@angular/material/menu";
 import { JwtModule } from "@auth0/angular-jwt";
 import { AuthGuard } from "./auth-guards/authguard";
 import { NavbarComponent } from './navbar/navbar.component';
+import { CustomerRegistrationComponent } from './customer-registration/customer-registration.component';
+import {ConfirmPassword} from './validators/password-confirmpwd-validator';
+import {AadhaarValidator} from './validators/aadhar-validator';
+
 
 export function tokenGetter() {
   return localStorage.getItem("jwt");
@@ -36,6 +40,10 @@ const appRoutes: Routes = [
   {
     path: "customer-login",
     component: CustomerLoginComponent,
+  },
+  {
+    path:"register-customer",
+    component:CustomerRegistrationComponent
   },
   // {
   //   path: "owner-dashboard/:firmId",
@@ -61,6 +69,9 @@ const appRoutes: Routes = [
     LoginComponent,
     CustomerLoginComponent,
     NavbarComponent,
+    CustomerRegistrationComponent,
+    ConfirmPassword,
+    AadhaarValidator
   ],
   imports: [
     BrowserModule,

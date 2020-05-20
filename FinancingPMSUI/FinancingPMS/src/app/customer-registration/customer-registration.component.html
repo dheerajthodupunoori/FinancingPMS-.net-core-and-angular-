@@ -1,0 +1,165 @@
+<div class="row" style="margin-top: 150px;">
+    <div class="col-md-3">
+        
+    </div>
+   <!-- {{registerCustomer.form.valid}} -->
+    <div class="col-md-6" style="background-color: lightgray;border-radius: 5px;padding: 15px;">
+        <form (ngSubmit)="RegisterCustomer()" #registerCustomer="ngForm">
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="fn">First name</label>
+                        <input
+                          type="text"
+                          class="form-control"
+                          id="fn"
+                          [(ngModel)]="details.FirstName"
+                          name="fn"
+                          #fn="ngModel"
+                          placeholder="First Name"
+                          required
+                        />
+                </div>
+                <div
+                [hidden]="fn.valid || fn.pristine"
+                class="alert alert-danger"
+              >
+                First Name is required
+              </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="ln">Last name</label>
+                        <input
+                          type="text"
+                          class="form-control"
+                          id="ln"
+                          [(ngModel)]="details.LastName"
+                          name="ln"
+                          #ln="ngModel"
+                          placeholder="Last Name"
+                          required
+                        />
+                </div>
+                <div
+              *ngIf = "ln.touched && ln.errors?.required"
+                class="alert alert-danger"
+              >
+                Last Name is required
+              </div>
+            </div>
+        </div>
+        <!-- {{details|json}} -->
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="ftn">Father name</label>
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="ftn"
+                      [(ngModel)]="details.FatherName"
+                      name="ftn"
+                      #ftn="ngModel"
+                      placeholder="Father Name"
+                      required
+                    />
+            </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="dob">Date of birth</label>
+                    <input
+                      type="date"
+                      class="form-control"
+                      id="dob"
+                      [(ngModel)]="details.DOB"
+                      name="dob"
+                      #dob="ngModel"
+                      required
+                    />
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-6">
+            <div class="form-group">
+                <label for="pwd">Password</label>
+                <input
+                  type="password"
+                  class="form-control"
+                  id="pwd"
+                  [(ngModel)]="details.Password"
+                  name="pwd"
+                  #pwd="ngModel"
+                  placeholder="Password"
+                  required
+                />
+        </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                <label for="cpwd">Confirm Password</label>
+                <input
+                  type="password"
+                  class="form-control"
+                  id="cpwd"
+                  [(ngModel)]="details.CnfPwd"
+                  name="cpwd"
+                  #cpwd="ngModel"
+                  placeholder="Confirm Password"
+                  required
+                  passwordValidator="pwd"
+                />
+        </div>
+        <div
+        *ngIf="cpwd.errors?.required && cpwd.touched"
+         class="alert alert-danger"
+       >
+        Confirm password is required.
+       </div>
+        <div
+       *ngIf="cpwd.errors?.notEqual && !cpwd.errors?.required"
+        class="alert alert-danger"
+      >
+        Password and Confirm Password do not match.
+      </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-6">
+        <div class="form-group">
+            <label for="aadhar">Aadhar number</label>
+            <input
+              type="text"
+              class="form-control"
+              id="aadhar"
+              [(ngModel)]="details.Aadhar"
+              name="aadhar"
+              #aadhar="ngModel"
+              placeholder="Aadhar number"
+              aadhaarValidator
+              required
+            />
+    </div>
+    <div
+       *ngIf="aadhar.errors?.doNotMatch && !aadhar.errors?.required"
+        class="alert alert-danger"
+      >
+        Please enter valid Aadhaar number
+      </div>
+    </div>
+    <div class="col-md-6">
+        <div class="form-group">
+            <label>Select firm in which you want to register</label>
+            <select class="form-control" required>
+            </select>
+    </div>
+</div>
+</div>
+        </form>
+    </div>
+    <div class="col-md-3">
+        
+    </div>
+</div>

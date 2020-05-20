@@ -14,7 +14,7 @@ export class LoginService {
 
   public loginStatusSubject = this.loginStatus.asObservable();
 
-  private loginURL = "http://localhost:49366/api/Login";
+  private loginURL = "http://localhost:5000/api/Login";
 
   constructor(private http: HttpClient) {}
 

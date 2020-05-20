@@ -28,7 +28,7 @@ namespace FinancingPMS.Controllers
             _loginService = loginService;
         }
 
-        [ActionName("LoginFirm")]
+        //[ActionName("LoginFirm")]
         //[Route("api/[controller]/FirmId/{Id}/Email/{Email}/PhoneNumber/{PhoneNumber}")]
         //[HttpPost("Login")]
         [HttpPost]
