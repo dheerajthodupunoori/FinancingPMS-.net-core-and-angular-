@@ -28,8 +28,46 @@ namespace FinancingPMS.Services
         public List<Firm> GetAllFirms()
         {
             List<Firm> firmsList = new List<Firm>();
+            SqlDataReader reader = null;
 
+            try
+            {
+                using (SqlCommand sqlCommand = new SqlCommand())
+                {
+                    sqlCommand.Connection = _connection;
+                    sqlCommand.CommandType = System.Data.CommandType.StoredProcedure;
+                    sqlCommand.CommandText = "spGetAllFirmDetails";
 
+                    if (_connection.State == System.Data.ConnectionState.Closed)
+                    {
+                        _connection.Open();
+                    }
+
+                    using (reader = sqlCommand.ExecuteReader())
+                    {
+                        if (reader.HasRows)
+                        {
+                            while (reader.Read())
+                            {
+                                Firm firm = new Firm()
+                                {
+                                    Id = reader["Id"].ToString(),
+                                    Name = reader["Name"].ToString()
+                                };
+                                firmsList.Add(firm);
+                            }
+                        }
+                    }
+                }
+            }
+            catch(Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                _connection.Close();
+            }
 
             return firmsList;
         }

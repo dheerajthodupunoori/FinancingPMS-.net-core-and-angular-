@@ -1,4 +1,5 @@
 export class RegisterCustomer{
+    
     constructor(
         public FirstName:string,
         public LastName:string,

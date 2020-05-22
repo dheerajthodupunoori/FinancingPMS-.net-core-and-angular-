@@ -3,7 +3,9 @@
         
     </div>
    <!-- {{registerCustomer.form.valid}} -->
+   <!-- {{details|json}} -->
     <div class="col-md-6" style="background-color: lightgray;border-radius: 5px;padding: 15px;">
+        <span class="customer-registration-heading">Register to Firm as Customer</span>
         <form (ngSubmit)="RegisterCustomer()" #registerCustomer="ngForm">
             <div class="row">
                 <div class="col-md-6">
@@ -49,7 +51,6 @@
               </div>
             </div>
         </div>
-        <!-- {{details|json}} -->
         <div class="row">
             <div class="col-md-6">
                 <div class="form-group">
@@ -152,11 +153,48 @@
     <div class="col-md-6">
         <div class="form-group">
             <label>Select firm in which you want to register</label>
-            <select class="form-control" required>
+            <select class="form-control" name="fid" [(ngModel)]="details.FirmID" required>
+                <option *ngFor="let firm of firmDropdownListItems" value={{firm.id}}>
+                    {{firm.name}} - {{firm.id}}
+                </option>
             </select>
+    </div>
+    <div *ngIf="isDropdownError">
+        {{dropdownErrorMessage}}
     </div>
 </div>
 </div>
+<div class="row">
+    <div class="col-md-6">
+        <div class="form-group">
+            <label>Upload your Aadhaar card photo copy</label>
+            <input 
+                type="file"
+                 class="form-control" 
+                 id="aadhaar-upload"
+                 (change)="handleFileInput($event.target.files)"
+                 required>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-5">
+
+    </div>
+    <div class="col-md-4">
+        <button
+        type="submit"
+        class="btn btn-success"
+        [disabled]="!registerCustomer.form.valid"
+        >
+        Register to firm
+        </button>
+    </div>
+    <div class="col-md-3">
+
+    </div>
+</div>
+
         </form>
     </div>
     <div class="col-md-3">
