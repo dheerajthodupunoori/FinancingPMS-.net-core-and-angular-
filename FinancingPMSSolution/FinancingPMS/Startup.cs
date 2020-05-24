@@ -48,6 +48,8 @@ namespace FinancingPMS
 
             services.Configure<AzureConfig>(Configuration.GetSection("AzureKeyValutConfig"));
 
+            services.Configure<AzureAadhaarBlobConfig>(Configuration.GetSection("AzureAadhaarBlobConfig"));
+            
             //services.AddCors();
 
             services.AddCors(options =>

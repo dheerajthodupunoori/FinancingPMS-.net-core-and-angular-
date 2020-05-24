@@ -1,14 +1,14 @@
 export class RegisterCustomer{
-    
+    public CustomerRegistrationValidationStatus : number;
+    public AadhaarImage : File;
     constructor(
         public FirstName:string,
         public LastName:string,
         public FatherName:string,
         public DOB:Date,
         public Password:string,
-        public Aadhar:string,
-        public FirmID:string,
-        public CnfPwd:string
+        public AadhaarNumber:string,
+        public FirmID:string
     )
     {
         

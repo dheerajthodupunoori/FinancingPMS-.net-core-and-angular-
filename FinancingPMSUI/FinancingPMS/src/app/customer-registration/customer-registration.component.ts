@@ -1,6 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { RegisterCustomer } from '../Models/customer-register';
 import {FirmService} from '../Services/FirmService';
+import {CustomerRegistrationStatusEnum} from '../Enums/CustomerRegistrationValidationStatusEnum';
+import { RegisterService } from '../Services/register.service';
+import {FileUploadOperationsService} from '../Services/FileUploadService';
+import { HttpEventType } from '@angular/common/http';
 
 @Component({
   selector: 'app-customer-registration',
@@ -10,7 +14,7 @@ import {FirmService} from '../Services/FirmService';
 export class CustomerRegistrationComponent implements OnInit {
 
   //initial details for form
- public details : RegisterCustomer = new RegisterCustomer("","","",new Date(),"","","","");
+ public details : RegisterCustomer = new RegisterCustomer("","","",new Date(),"","","");
 
  public firmDropdownListItems : any[];
 
@@ -19,9 +23,25 @@ export class CustomerRegistrationComponent implements OnInit {
  public dropdownErrorMessage :string ;
 
  public fileToUpload : FormData;
+
+ public hasRegistrationError:boolean=false;
+
+ public registrationErrorMessage:string;
+
+ public CustomerID:string;
+
+ public hasAadhaarFileUploadError : boolean = false;
+
+ public aadhaarFileUploadErrorMessage : string;
+
+ public isRegistrationStarted:boolean=false;
+
+//  public customerRegistrationValidationStatus = CustomerRegistrationStatusEnum.NotValidated;
  
 
-  constructor(private _firmService:FirmService) { }
+  constructor(private _firmService:FirmService,
+            private _registerService:RegisterService,
+            private _fileUploadService:FileUploadOperationsService) { }
 
   ngOnInit() {
     this._firmService.getAllFirms().subscribe((result)=>{
@@ -29,7 +49,7 @@ export class CustomerRegistrationComponent implements OnInit {
       this.firmDropdownListItems = result;
       this.details.FirmID=result[0].id;
       console.log("firmDropdownListItems" , this.firmDropdownListItems);
-      console.log("registration details of customer" ,  this.details);
+      // console.log("registration details of customer" ,  this.details);
     },
     (error)=>
     {
@@ -45,12 +65,39 @@ export class CustomerRegistrationComponent implements OnInit {
     let formData: FormData = new FormData();  
     formData.append("asset", files[0], files[0].name);  
     this.fileToUpload = formData;  
-    console.log("file to upload" , formData);
+    
+    console.log("file to upload" , this.fileToUpload);
   } 
 
 
   RegisterCustomer()
   {
+    this.hasRegistrationError=false;
+    console.log("customer registration details in component class" , this.details);
+    this.details.CustomerRegistrationValidationStatus = CustomerRegistrationStatusEnum.NotValidated;
+    this._registerService.registerCustomerToFirm(this.details).subscribe((data)=>{
+      console.log(data);
+      this.CustomerID = data.customerID;
+      console.log("Customer ID" , this.CustomerID);
+      this.uploadAadhaarImage(this.fileToUpload,this.CustomerID);
+    },
+    (error)=>{
+      console.log("error" , error);
+      this.hasRegistrationError = true;
+      this.registrationErrorMessage = error.error;
+    });
+  }
+
+  uploadAadhaarImage(fileToUpload : FormData , customerID:string){
+
+    this._fileUploadService.uploadAadhaarImage(fileToUpload,customerID).subscribe((data)=>
+    {
+      console.log(data);
+    },
+    (error)=>
+    {
+      console.log(error);
+    });
     
   }
 

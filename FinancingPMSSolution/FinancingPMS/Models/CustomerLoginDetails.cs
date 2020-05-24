@@ -20,13 +20,13 @@ namespace FinancingPMS.Models
 
         public DateTime DOB { get; set; }
 
-        public string Password { get; }
+        public string Password { get; set; }
 
-        [MaxLength(12)]
-        [MinLength(12)]
+        //[MaxLength(12)]
+        //[MinLength(12)]
         public string AadhaarNumber { get; set; }
 
-        public string AadhaarFilePath { get; set; }
+        //public string AadhaarFilePath { get; set; }
 
         public int CustomerRegistrationValidationStatus { get; set; } 
     }

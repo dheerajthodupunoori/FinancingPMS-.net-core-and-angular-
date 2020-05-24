@@ -5,7 +5,15 @@
    <!-- {{registerCustomer.form.valid}} -->
    <!-- {{details|json}} -->
     <div class="col-md-6" style="background-color: lightgray;border-radius: 5px;padding: 15px;">
+        <div class="row" *ngIf="isRegistrationStarted">
+            <div class="col-md-12">
+                Registration is in progress - 
+            </div>
+        </div>
         <span class="customer-registration-heading">Register to Firm as Customer</span>
+        <div *ngIf="hasRegistrationError" class="alert alert-danger" role="alert">
+            {{registrationErrorMessage}}
+          </div>
         <form (ngSubmit)="RegisterCustomer()" #registerCustomer="ngForm">
             <div class="row">
                 <div class="col-md-6">
@@ -135,7 +143,7 @@
               type="text"
               class="form-control"
               id="aadhar"
-              [(ngModel)]="details.Aadhar"
+              [(ngModel)]="details.AadhaarNumber"
               name="aadhar"
               #aadhar="ngModel"
               placeholder="Aadhar number"
@@ -147,7 +155,7 @@
        *ngIf="aadhar.errors?.doNotMatch && !aadhar.errors?.required"
         class="alert alert-danger"
       >
-        Please enter valid Aadhaar number
+        Please enter valid Aadhaar number(Aadhaar number contains only numbers)
       </div>
     </div>
     <div class="col-md-6">
@@ -169,9 +177,12 @@
         <div class="form-group">
             <label>Upload your Aadhaar card photo copy</label>
             <input 
-                type="file"
+                 type="file"
                  class="form-control" 
                  id="aadhaar-upload"
+                 name="aadhaarImage"
+                 [(ngModel)]="details.AadhaarImage"
+                 accept=".png"
                  (change)="handleFileInput($event.target.files)"
                  required>
         </div>

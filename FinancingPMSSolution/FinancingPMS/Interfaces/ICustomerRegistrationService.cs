@@ -10,6 +10,6 @@ namespace FinancingPMS.Interfaces
     public interface ICustomerRegistrationService
     {
 
-        public void PerformCustomerRegistration(CustomerLoginDetails customerLoginDetails);
+        public string PerformCustomerRegistration(CustomerLoginDetails customerLoginDetails);
     }
 }

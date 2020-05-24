@@ -3,6 +3,7 @@ import { Firm } from "../Models/firm";
 import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { Observable } from "rxjs";
 import { FirmDetails } from "../Models/firm-details";
+import { RegisterCustomer } from '../Models/customer-register';
 
 @Injectable({
   providedIn: "root"
@@ -12,6 +13,8 @@ export class RegisterService {
 
   private saveFirmDetailsURL =
     "http://localhost:49366/api/Registration/saveFirmDetails";
+
+  private registerCustomerToFirmURL = "http://localhost:5000/api/CustomerRegistration/PerformCustomerRegistration";
 
   constructor(private http: HttpClient) {}
 
@@ -52,4 +55,16 @@ export class RegisterService {
 
     return this.http.post<any>(this.saveFirmDetailsURL, firmDetails);
   }
+
+
+  registerCustomerToFirm(customerLoginDetails:RegisterCustomer) : Observable<any>{
+    console.log("customer registration details in register service " , customerLoginDetails);
+          return this.http.post<any>(this.registerCustomerToFirmURL,customerLoginDetails,
+                        {
+                          reportProgress:true
+                        });
+  }
+
+
+
 }

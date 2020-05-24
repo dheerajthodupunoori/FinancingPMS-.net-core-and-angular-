@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using FinancingPMS.Interfaces;
 using FinancingPMS.Models;
@@ -39,7 +40,24 @@ namespace FinancingPMS.Controllers
        [Route("PerformCustomerRegistration")]
        public IActionResult PerformCustomerRegistration(CustomerLoginDetails customerLoginDetails)
         {
-            return Ok();
+            string customerID = string.Empty;
+            try
+            {
+                if (customerLoginDetails != null)
+                {
+                    Thread.Sleep(2000);
+                    customerID =   _customerRegistrationService.PerformCustomerRegistration(customerLoginDetails);
+                }
+                else
+                {
+                    return BadRequest();
+                }
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex.Message);
+            }
+            return Ok(new { CustomerID = customerID }); ;
         }
     }
 }
