@@ -22,7 +22,7 @@ export class CustomerRegistrationComponent implements OnInit {
 
  public dropdownErrorMessage :string ;
 
- public fileToUpload : FormData;
+ public fileToUpload : any;
 
  public hasRegistrationError:boolean=false;
 
@@ -63,8 +63,10 @@ export class CustomerRegistrationComponent implements OnInit {
   handleFileInput(files: any) {  
     console.log("uploaded files", files);
     let formData: FormData = new FormData();  
-    formData.append("asset", files[0], files[0].name);  
-    this.fileToUpload = formData;  
+    for (let file of files){
+    formData.append(file.name, file);
+    }
+    this.fileToUpload = formData 
     
     console.log("file to upload" , this.fileToUpload);
   } 
@@ -88,7 +90,7 @@ export class CustomerRegistrationComponent implements OnInit {
     });
   }
 
-  uploadAadhaarImage(fileToUpload : FormData , customerID:string){
+  uploadAadhaarImage(fileToUpload : any , customerID:string){
 
     this._fileUploadService.uploadAadhaarImage(fileToUpload,customerID).subscribe((data)=>
     {

@@ -16,22 +16,13 @@ export class FileUploadOperationsService{
 
 
     uploadAadhaarImage(aadhaarImage : FormData , customerID:string):Observable<any>{
-
-        // const body = {
-        //     aadhaarImage : aadhaarImage,
-        //     customerID : customerID
-        // };
         
-        
-        return this.http.post<any>(this.aadhaarUploadForCustomerRegistrationURL,
-                                            aadhaarImage,
-                                            {
-                                            reportProgress:true,
-                                            headers: {
-                                                'Content-Type': 'multipart/form-data'
-                                              }
-                                        //  params: new HttpParams().set('customerID', customerID)
-                                            });
+        return this.http.post<any>("http://localhost:5000/api/AzureBlobOperations/UploadAadhaarImageToAzureBlobContainer", aadhaarImage,
+        {
+          reportProgress:true,
+          params: new HttpParams().set('customerID', customerID)
+          }
+);
 
     }
      

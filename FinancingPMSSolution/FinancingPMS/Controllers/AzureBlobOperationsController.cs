@@ -39,8 +39,9 @@ namespace FinancingPMS.Controllers
 
         [Route("UploadAadhaarImageToAzureBlobContainer")]
         [HttpPost]
-        public async Task<bool> InsertFile(IFormFile aadhaarImage)
+        public async Task<bool> InsertFile(string customerID)
         {
+            var file = Request.Form.Files[0];
             try
             {
                 if (CloudStorageAccount.TryParse(_azureBlobConfig.Value.ConnectionString, out CloudStorageAccount storageAccount))
@@ -49,10 +50,10 @@ namespace FinancingPMS.Controllers
 
                     CloudBlobContainer container = blobClient.GetContainerReference(_azureBlobConfig.Value.FinancingAadhaarContainerName);
 
-                    CloudBlockBlob blockBlob = container.GetBlockBlobReference(aadhaarImage.Name);
+                    CloudBlockBlob blockBlob = container.GetBlockBlobReference("FRM0UIDAI663");
 
 
-                    await blockBlob.UploadFromStreamAsync(aadhaarImage.OpenReadStream());
+                    await blockBlob.UploadFromStreamAsync(file.OpenReadStream());
 
                     return true;
                 }
