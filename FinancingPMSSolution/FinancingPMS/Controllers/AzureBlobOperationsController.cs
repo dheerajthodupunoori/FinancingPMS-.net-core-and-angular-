@@ -50,7 +50,7 @@ namespace FinancingPMS.Controllers
 
                     CloudBlobContainer container = blobClient.GetContainerReference(_azureBlobConfig.Value.FinancingAadhaarContainerName);
 
-                    CloudBlockBlob blockBlob = container.GetBlockBlobReference("FRM0UIDAI663");
+                    CloudBlockBlob blockBlob = container.GetBlockBlobReference(GenerateUniqueAadhaarImageName(customerID));
 
 
                     await blockBlob.UploadFromStreamAsync(file.OpenReadStream());

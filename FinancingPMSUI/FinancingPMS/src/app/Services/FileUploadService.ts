@@ -10,7 +10,7 @@ import { Observable } from 'rxjs';
 export class FileUploadOperationsService{
 
     private aadhaarUploadForCustomerRegistrationURL = 
-    "http://localhost:5000/api​/AzureBlobOperations​/UploadAadhaarImageToAzureBlobContainer";
+    "http://localhost:5000/api/AzureBlobOperations​/UploadAadhaarImageToAzureBlobContainer";
 
     constructor(private http: HttpClient) {}
 

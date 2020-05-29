@@ -52,8 +52,5 @@ export class FirmRegistrationComponent implements OnInit {
         }
       }
      );
-
-
-    
   }
 }

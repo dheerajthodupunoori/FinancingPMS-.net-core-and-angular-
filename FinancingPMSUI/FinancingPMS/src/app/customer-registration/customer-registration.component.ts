@@ -5,6 +5,7 @@ import {CustomerRegistrationStatusEnum} from '../Enums/CustomerRegistrationValid
 import { RegisterService } from '../Services/register.service';
 import {FileUploadOperationsService} from '../Services/FileUploadService';
 import { HttpEventType } from '@angular/common/http';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-customer-registration',
@@ -13,8 +14,8 @@ import { HttpEventType } from '@angular/common/http';
 })
 export class CustomerRegistrationComponent implements OnInit {
 
-  //initial details for form
- public details : RegisterCustomer = new RegisterCustomer("","","",new Date(),"","","");
+  //initial details for formindex
+ public details : RegisterCustomer = new RegisterCustomer("Dheeraj","Thodupunuri","Dilip Raju",new Date(),"","","");
 
  public firmDropdownListItems : any[];
 
@@ -34,14 +35,15 @@ export class CustomerRegistrationComponent implements OnInit {
 
  public aadhaarFileUploadErrorMessage : string;
 
- public isRegistrationStarted:boolean=false;
+//  public isRegistrationStarted:boolean=false;
 
 //  public customerRegistrationValidationStatus = CustomerRegistrationStatusEnum.NotValidated;
  
 
   constructor(private _firmService:FirmService,
             private _registerService:RegisterService,
-            private _fileUploadService:FileUploadOperationsService) { }
+            private _fileUploadService:FileUploadOperationsService,
+            private router: Router) { }
 
   ngOnInit() {
     this._firmService.getAllFirms().subscribe((result)=>{
@@ -66,7 +68,16 @@ export class CustomerRegistrationComponent implements OnInit {
     for (let file of files){
     formData.append(file.name, file);
     }
-    this.fileToUpload = formData 
+    this.fileToUpload = formData;
+
+    // var Tesseract = window.Tesseract;
+
+
+    // Tesseract.recognize(files[0]).then(function(result){
+
+    //   console.log(result.text);
+
+    //   });
     
     console.log("file to upload" , this.fileToUpload);
   } 
@@ -94,11 +105,16 @@ export class CustomerRegistrationComponent implements OnInit {
 
     this._fileUploadService.uploadAadhaarImage(fileToUpload,customerID).subscribe((data)=>
     {
-      console.log(data);
+      console.log("success response from azure aadhaar image upload service" , data);
+      if(data){
+        this.router.navigate(["customer-login"]);
+      }
     },
     (error)=>
     {
-      console.log(error);
+      console.log("successresponse from azure aadhaar image upload service" ,error);
+      this.hasAadhaarFileUploadError=true;
+      this.aadhaarFileUploadErrorMessage = error.message;
     });
     
   }

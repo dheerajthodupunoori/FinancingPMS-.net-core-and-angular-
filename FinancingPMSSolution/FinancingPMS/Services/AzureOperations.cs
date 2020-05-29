@@ -23,7 +23,7 @@ namespace FinancingPMS.Services
             }
             catch(Exception ex)
             {
-
+                throw ex;
             }
             finally
             {

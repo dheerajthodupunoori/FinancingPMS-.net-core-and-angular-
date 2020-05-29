@@ -20,6 +20,7 @@ import { NavbarComponent } from './navbar/navbar.component';
 import { CustomerRegistrationComponent } from './customer-registration/customer-registration.component';
 import {ConfirmPassword} from './validators/password-confirmpwd-validator';
 import {AadhaarValidator} from './validators/aadhar-validator';
+import { CustomerAdditionalDetailsComponent } from './customer-additional-details/customer-additional-details.component';
 
 
 export function tokenGetter() {
@@ -57,6 +58,10 @@ const appRoutes: Routes = [
       ),
     canActivate: [AuthGuard],
   },
+  {
+    path:"customer-additional-details/:customerId",
+    component:CustomerAdditionalDetailsComponent
+  },
 ];
 
 @NgModule({
@@ -71,7 +76,8 @@ const appRoutes: Routes = [
     NavbarComponent,
     CustomerRegistrationComponent,
     ConfirmPassword,
-    AadhaarValidator
+    AadhaarValidator,
+    CustomerAdditionalDetailsComponent
   ],
   imports: [
     BrowserModule,
