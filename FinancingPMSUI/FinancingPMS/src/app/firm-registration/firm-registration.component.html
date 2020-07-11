@@ -1,8 +1,8 @@
 <!-- {{ diagnostic }} -->
 <div class="container" id="registrationContainer">
   <div class="row">
-    <div class="col-md-4"></div>
-    <div class="col-md-4">
+    <div class="col-md-3"></div>
+    <div class="col-md-6">
       <div class="breadcrumb">
         <div class="container">
           <h2>Register your Firm</h2>
@@ -11,99 +11,185 @@
   {{firmRegistrationErrorMessage}}
 </div>
           <form (ngSubmit)="RegisterFirm()" #registerFirmForm="ngForm">
-            <div class="form-group">
-              <label for="Id">Firm ID</label>
-              <input
-                type="text"
-                class="form-control"
-                id="Id"
-                [(ngModel)]="firm.Id"
-                name="Id"
-                maxlength="4"
-                #Id="ngModel"
-                pattern="[0-9]+"
-                placeholder="Please enter 4 digit Firm ID!"
-                required
-              />
-              <div
-                [hidden]="Id.valid || Id.pristine"
-                class="alert alert-danger"
-              >
-                Firm ID is required
+
+
+            <div class="row">
+              <div class="col-md-6">
+                  
+                  <div class="form-group">
+                    <label for="Id">Firm ID</label>
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="Id"
+                      [(ngModel)]="firm.Id"
+                      name="Id"
+                      maxlength="4"
+                      #Id="ngModel"
+                      pattern="[0-9]+"
+                      placeholder="Please enter 4 digit Firm ID (required)"
+                      required
+                    />
+                    
+                  </div>
+
+                  <div
+                      [hidden]="Id.valid || Id.pristine"
+                      class="alert alert-danger"
+                    >
+                      Firm ID is required
+                    </div>
+
+              </div>
+              <div class="col-md-6">
+                  <div class="form-group">
+                    <label for="Name">Firm Name</label>
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="Name"
+                      [(ngModel)]="firm.Name"
+                      name="Name"
+                      #firmName="ngModel"
+                      placeholder="Firm name (required)"
+                      required
+                    />
+                   
+                  </div>
+
+                  <div
+                  [hidden]="firmName.valid || firmName.pristine"
+                  class="alert alert-danger"
+                >
+                  Firm Name is required
+                </div>
+
               </div>
             </div>
 
-            <div class="form-group">
-              <label for="Name">Firm Name</label>
-              <input
-                type="text"
-                class="form-control"
-                id="Name"
-                [(ngModel)]="firm.Name"
-                name="Name"
-                #firmName="ngModel"
-                placeholder="Enter FisrtName LastName"
-                required
-              />
-              <div
-                [hidden]="firmName.valid || firmName.pristine"
+            <div class="row">
+              <div class="col-md-6">
+
+                <div class="form-group">
+                  <label for="pwd">Password</label>
+                  <input 
+                    type="password"
+                    id="pwd"
+                    class="form-control"
+                    [(ngModel)]="firm.password"
+                    name="pwd"
+                    #pwd="ngModel"
+                    placeholder="Password (required)"
+                    required
+                  />
+                </div>
+
+              </div>
+              <div class="col-md-6">
+                
+                <div class="form-group">
+                  <label for="cpwd">Confirm Password</label>
+                  <input
+                    type="password"
+                    class="form-control"
+                    id="cpwd"
+                    [(ngModel)]="firm.cPassword"
+                    name="cpwd"
+                    #cpwd="ngModel"
+                    placeholder="Confirm Password (required)"
+                    required
+                    passwordValidator="pwd"
+                  />
+                 
+               </div>
+
+               <div
+               *ngIf="cpwd.errors?.notEqual && !cpwd.errors?.required"
                 class="alert alert-danger"
               >
-                Firm Name is required
+                Password and Confirm Password do not match.
+              </div>
+               
               </div>
             </div>
 
-            <div class="form-group">
-              <label for="Email">Email ID</label>
-              <input
-                type="email"
-                class="form-control"
-                id="Email"
-                [(ngModel)]="firm.Email"
-                name="Email"
-                #email="ngModel"
-                required
-              />
-              <div
-                [hidden]="email.valid || email.pristine"
-                class="alert alert-danger"
-              >
-                Email is required
+            <div class="row">
+              <div class="col-md-6">
+
+                <div class="form-group">
+                  <label for="Email">Email ID</label>
+                  <input
+                    type="email"
+                    class="form-control"
+                    id="Email"
+                    [(ngModel)]="firm.Email"
+                    name="Email"
+                    #email="ngModel"
+                    placeholder=" Email (required)"
+                    required
+                  />
+                  <div
+                    [hidden]="email.valid || email.pristine"
+                    class="alert alert-danger"
+                  >
+                    Email is required
+                  </div>
+                </div>
+
+              </div>
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label for="PhoneNumber">Phone Number</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="PhoneNumber"
+                    [(ngModel)]="firm.PhoneNumber"
+                    name="PhoneNumber"
+                    #phone="ngModel"
+                    maxlength="10"
+                    pattern="[0-9]+"
+                    placeholder="Phone number (required)"
+                    required
+                  />
+                  <div
+                    [hidden]="phone.valid || phone.pristine"
+                    class="alert alert-danger"
+                  >
+                    Please enter valid PhoneNumber
+                  </div>
+                </div>
               </div>
             </div>
 
-            <div class="form-group">
-              <label for="PhoneNumber">Phone Number</label>
-              <input
-                type="text"
-                class="form-control"
-                id="PhoneNumber"
-                [(ngModel)]="firm.PhoneNumber"
-                name="PhoneNumber"
-                #phone="ngModel"
-                maxlength="10"
-                pattern="[0-9]+"
-                required
-              />
-              <div
-                [hidden]="phone.valid || phone.pristine"
-                class="alert alert-danger"
-              >
-                Please enter valid PhoneNumber
-              </div>
-            </div>
 
-            <button
-              type="submit"
-              class="btn btn-success"
-              [disabled]="!registerFirmForm.form.valid"
-            >
-              Register
-            </button>
+           
+
+          
+
+         
+          
+
+           
+
+            <div class="row">
+              <div class="col-md-4"></div>
+              <div class="col-md-4">
+                <button
+                  type="submit"
+                  class="btn btn-success"
+                  [disabled]="!registerFirmForm.form.valid"
+                >
+                  Register
+                </button>
+              </div>
+              <div class="col-md-4"></div>
+            </div>
+            
           </form>
         </div>
       </div>
     </div>
-    <div class="col-md-4"></div>
+    <div class="col-md-3"></div>
   </div>
 </div>

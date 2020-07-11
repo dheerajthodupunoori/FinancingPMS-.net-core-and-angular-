@@ -9,7 +9,7 @@ import { RegisterCustomer } from '../Models/customer-register';
   providedIn: "root"
 })
 export class RegisterService {
-  private registerURL = "http://localhost:49366/api/Registration";
+  private registerURL = "http://localhost:5000/api/Registration";
 
   private saveFirmDetailsURL =
     "http://localhost:49366/api/Registration/saveFirmDetails";
@@ -28,7 +28,8 @@ export class RegisterService {
       name: firm.Name,
       id: firm.Id,
       email: firm.Email,
-      phoneNumber: firm.PhoneNumber
+      phoneNumber: firm.PhoneNumber,
+      password: firm.password
     };
     console.log("Firm Details", body);
 

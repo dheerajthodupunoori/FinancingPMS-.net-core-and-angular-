@@ -128,5 +128,8 @@
       }
     }
   },
-  "defaultProject": "FinancingPMS"
+  "defaultProject": "FinancingPMS",
+  "cli": {
+    "analytics": false
+  }
 }

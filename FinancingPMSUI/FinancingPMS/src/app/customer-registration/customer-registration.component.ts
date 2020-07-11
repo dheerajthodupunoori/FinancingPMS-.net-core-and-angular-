@@ -112,7 +112,7 @@ export class CustomerRegistrationComponent implements OnInit {
     },
     (error)=>
     {
-      console.log("successresponse from azure aadhaar image upload service" ,error);
+      console.log("Error response from azure aadhaar image upload service" ,error);
       this.hasAadhaarFileUploadError=true;
       this.aadhaarFileUploadErrorMessage = error.message;
     });

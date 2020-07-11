@@ -3,7 +3,7 @@ import { NgModule } from "@angular/core";
 import { RouterModule, Routes } from "@angular/router";
 import { AppRoutingModule } from "./app-routing.module";
 import { AppComponent } from "./app.component";
-import { FormsModule } from "@angular/forms";
+import { FormsModule , ReactiveFormsModule } from "@angular/forms";
 import { FooterComponent } from "./footer/footer.component";
 import { FirmRegistrationComponent } from "./firm-registration/firm-registration.component";
 import { LandingPageComponent } from "./landing-page/landing-page.component";
@@ -83,6 +83,7 @@ const appRoutes: Routes = [
     BrowserModule,
     AppRoutingModule,
     FormsModule,
+    ReactiveFormsModule,
     HttpClientModule,
     RouterModule.forRoot(
       appRoutes

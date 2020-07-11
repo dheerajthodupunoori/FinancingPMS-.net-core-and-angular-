@@ -1,1 +1,94 @@
-<p>customer-login works!</p>
+<div class="row" style="margin-top: 150px;">
+    <div class="col-md-3">
+        
+    </div>
+
+    <div class="col-md-6" style="background-color: lightgray;border-radius: 5px;padding: 15px;">
+        
+        <div class="row">
+        <div class="col-md-4">
+
+        </div>
+        
+        <div class="col-md-4">
+        <strong class="customer-registration-heading">Login to your Account
+        </strong>
+        </div>
+
+        <div class="col-md-4">
+            
+        </div>
+        </div>
+
+        <br>
+
+        <form (ngSubmit)="LoginCustomer()" [formGroup]="customerLoginForm">
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="customerID">CustomerID</label>
+                        <input
+                          type="text"
+                          class="form-control"
+                          id="customerID"
+                          formControlName="customerID"
+                          placeholder="CustomerID (required)"
+                        />
+                    </div>
+
+                    <div
+                    *ngIf = "customerLoginForm.get('customerID').errors?.required && customerLoginForm.get('customerID').touched"
+                        class="alert alert-danger">
+                        CustomerID is required
+                    </div>
+
+                </div>
+
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="customerID">Password</label>
+                        <input
+                          type="password"
+                          class="form-control"
+                          id="password"
+                          formControlName="password"
+                          placeholder="Password (required)"
+                        />
+                    </div>
+
+                    <div class="alert alert-danger" *ngIf = "hasPasswordValidationError">
+                        {{passwordValidationMessage}}
+                    </div>
+
+                </div>
+
+
+            </div>
+            <div class="row">
+                <div class="col-md-4">
+
+                </div>
+                <div class="col-md-4">
+                    <button
+                        type="submit"
+                        class="btn btn-success"
+                        [disabled]="!customerLoginForm.valid"
+                        [title]="customerLoginForm.valid ? 'Save entered data' : 'Submit button is disabled until form is filled'"
+                        >
+                        Login to your account
+                        <i class="fa fa-sign-in" aria-hidden="true"></i>
+                    </button> 
+                </div>
+                <div class="col-md-4">
+                    
+                </div>
+            </div>
+        </form>
+        
+    </div>
+
+    <div class="col-md-3">
+        
+    </div>
+
+</div>

@@ -9,7 +9,7 @@ import { Router } from "@angular/router";
   styleUrls: ["./firm-registration.component.css"]
 })
 export class FirmRegistrationComponent implements OnInit {
-  public firm :Firm = new Firm("", "" , "", "");
+  public firm :Firm = new Firm("", "" , "", "" , "", "");
 
   public registrationStatus: boolean;
 

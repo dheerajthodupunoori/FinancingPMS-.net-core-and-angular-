@@ -58,8 +58,10 @@ namespace FinancingPMS.Services
                         sqlCommand.Parameters.AddWithValue("Name", firm.Name);
                         sqlCommand.Parameters.AddWithValue("Email", firm.Email);
                         sqlCommand.Parameters.AddWithValue("PhoneNumber", firm.PhoneNumber);
+                        sqlCommand.Parameters.AddWithValue("Password", firm.Password);
 
-                        if (_connection.State == System.Data.ConnectionState.Closed)
+
+                    if (_connection.State == System.Data.ConnectionState.Closed)
                         {
                             _connection.Open();
                         }
