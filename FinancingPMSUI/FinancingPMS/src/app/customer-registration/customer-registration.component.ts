@@ -6,6 +6,7 @@ import { RegisterService } from '../Services/register.service';
 import {FileUploadOperationsService} from '../Services/FileUploadService';
 import { HttpEventType } from '@angular/common/http';
 import { Router } from '@angular/router';
+// import {Tesseract} from 'tesseract.js'
 
 @Component({
   selector: 'app-customer-registration',
@@ -15,7 +16,7 @@ import { Router } from '@angular/router';
 export class CustomerRegistrationComponent implements OnInit {
 
   //initial details for formindex
- public details : RegisterCustomer = new RegisterCustomer("Dheeraj","Thodupunuri","Dilip Raju",new Date(),"","","");
+ public details : RegisterCustomer = new RegisterCustomer("Dheeraj","Thodupunuri","Dilip Raju",new Date(),"","","","dheeraj.thodupunoori01@gmail.com");
 
  public firmDropdownListItems : any[];
 
@@ -71,13 +72,22 @@ export class CustomerRegistrationComponent implements OnInit {
     this.fileToUpload = formData;
 
     // var Tesseract = window.Tesseract;
-
-
     // Tesseract.recognize(files[0]).then(function(result){
-
     //   console.log(result.text);
-
     //   });
+
+    // this._fileUploadService.retrieveTextFromImage(this.fileToUpload).subscribe((data) => {
+    //     console.log(data);
+    // });
+
+    // const worker = new Tesseract.TesseractWorker();
+    // worker.recognize(this.fileToUpload)
+    // .progress(function(packet){
+    //     console.info(packet)
+    // })
+    // .then(function(data){
+    //     console.log(data)
+    // })
     
     console.log("file to upload" , this.fileToUpload);
   } 

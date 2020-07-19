@@ -1,10 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using FinancingPMS.Interfaces;
 using FinancingPMS.Models;
+using IronOcr;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 
@@ -58,6 +61,31 @@ namespace FinancingPMS.Controllers
                 return StatusCode(500, ex.Message);
             }
             return Ok(new { CustomerID = customerID }); ;
+        }
+
+
+        [HttpPost]
+        [Route("GetTextFromImage")]
+        public async Task<IActionResult> GetTextFromImageAsync()
+        {
+            var file = Request.Form.Files[0];
+            Image img = null;
+
+            using (var memoryStream = new MemoryStream())
+            {
+                await file.CopyToAsync(memoryStream);
+                img = Image.FromStream(memoryStream);
+            }
+
+            var Ocr = new AdvancedOcr()
+            {
+                ReadBarCodes = false
+            };
+          
+            var Results = Ocr.Read(img);
+
+
+            return Ok();
         }
     }
 }

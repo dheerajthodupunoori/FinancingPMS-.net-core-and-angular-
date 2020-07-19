@@ -11,7 +11,7 @@ import { Directive } from '@angular/core';
 })
 export class AadhaarValidator implements Validator{
     validate(control: AbstractControl): {[key:string]:any} | null {
-        console.log(control);
+        // console.log(control);
         let aadhaarPatternRegex = /^[0-9]{12}$/;
 
         if(aadhaarPatternRegex.test(control.value))

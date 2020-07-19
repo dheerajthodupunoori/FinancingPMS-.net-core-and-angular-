@@ -31,13 +31,13 @@ namespace FinancingPMS.Services
         {
             _configuration = configuration;
 
-            connectionString = _configuration.GetConnectionString("DefaultConnection");
+            //connectionString = _configuration.GetConnectionString("DefaultConnection");
 
             azureConfigOptions = azureConfig.Value;
 
             _azureOperations = azureOperations;
 
-            //connectionString = _azureOperations.GetConnectionStringFromAzureKeyVault(azureConfigOptions.KeyVaultName , azureConfigOptions.AzureSQLDatabaseSecretName);
+            connectionString = _azureOperations.GetConnectionStringFromAzureKeyVault(azureConfigOptions.KeyVaultName , azureConfigOptions.AzureSQLDatabaseSecretName);
 
             _connection = new SqlConnection(connectionString);
         }

@@ -58,6 +58,7 @@ namespace FinancingPMS.Services
                     sqlcommand.Parameters.AddWithValue("DOB", customerLoginDetails.DOB);
                     sqlcommand.Parameters.AddWithValue("AadhaarNumber", customerLoginDetails.AadhaarNumber);
                     sqlcommand.Parameters.AddWithValue("Password", customerLoginDetails.Password);
+                    sqlcommand.Parameters.AddWithValue("EmailID", customerLoginDetails.EmailID);
 
 
                     if (_connection.State == System.Data.ConnectionState.Closed)

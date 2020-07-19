@@ -8,7 +8,8 @@ export class RegisterCustomer{
         public DOB:Date,
         public Password:string,
         public AadhaarNumber:string,
-        public FirmID:string
+        public FirmID:string,
+        public EmailID:string
     )
     {
         

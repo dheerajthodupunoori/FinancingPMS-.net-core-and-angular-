@@ -12,6 +12,12 @@ export class FileUploadOperationsService{
     private aadhaarUploadForCustomerRegistrationURL = 
     "http://localhost:5000/api/AzureBlobOperations​/UploadAadhaarImageToAzureBlobContainer";
 
+    private imageToTextFunctionURL = "https://imagecontenttotext.azurewebsites.net/api/ExtractTextFromImage"; 
+    
+    private getTextFromImageURL = "http://localhost:5000/api/CustomerRegistration/GetTextFromImage";
+    
+
+
     constructor(private http: HttpClient) {}
 
 
@@ -23,6 +29,13 @@ export class FileUploadOperationsService{
           params: new HttpParams().set('customerID', customerID)
           }
 );
+
+    }
+
+
+    retrieveTextFromImage(aadhaarImage : FormData):Observable<any>{
+
+      return this.http.post<any>(this.getTextFromImageURL , aadhaarImage);
 
     }
      

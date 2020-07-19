@@ -29,5 +29,7 @@ namespace FinancingPMS.Models
         //public string AadhaarFilePath { get; set; }
 
         public int CustomerRegistrationValidationStatus { get; set; } 
+
+        public string EmailID { get; set; }
     }
 }
