@@ -5,6 +5,8 @@ import { Observable } from "rxjs";
 import { FirmDetails } from "../Models/firm-details";
 import { RegisterCustomer } from '../Models/customer-register';
 
+const customerAdditinalDetailsURL = "http://localhost:5000/api/CustomerRegistration/saveCustomerAdditionalDetails"
+
 @Injectable({
   providedIn: "root"
 })
@@ -68,4 +70,7 @@ export class RegisterService {
 
 
 
+  saveCustomerAdditionalDetails(details :any) : Observable<any>{
+    return this.http.post<any>(customerAdditinalDetailsURL , details);
+  }
 }

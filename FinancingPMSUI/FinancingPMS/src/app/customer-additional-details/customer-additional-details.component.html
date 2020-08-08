@@ -1,1 +1,323 @@
-<p>customer-additional-details works!</p>
+<div class="row" style="margin-top: 150px;">
+
+    <div class="col-md-2">
+
+
+    </div>
+
+    <!-- {{this.detailsForm.status}} -->
+    <div class="col-md-8" style="background-color: lightgray;border-radius: 5px;padding: 15px;">
+
+        <div class="row">
+            <div class="col-md-4">
+            </div>
+            
+            <div class="col-md-3">
+            <strong class="customer-registration-heading">Enter your details</strong>
+            </div>
+
+            <div class="col-md-4">
+            </div>
+        </div>
+        <br/>
+
+
+        <form (ngSubmit)="SaveDetails()" [formGroup]="detailsForm">
+
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="customerID">CustomerID</label>
+                        <input
+                          type="text"
+                          class="form-control"
+                          id="customerID"
+                          formControlName="customerID"
+                          placeholder="CustomerID (required)"
+                          readonly
+                        />
+                    </div>
+
+                    <!-- <div
+                    *ngIf = "customerLoginForm.get('customerID').errors?.required && customerLoginForm.get('customerID').touched"
+                        class="alert alert-danger">
+                        CustomerID is required
+                    </div> -->
+
+                </div>
+
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="customerID">Occupation</label>
+                        <input
+                          type="text"
+                          class="form-control"
+                          id="occupation"
+                          formControlName="occupation"
+                          placeholder="Occupation (required)"
+                        />
+                    </div>
+
+                    <!-- <div class="alert alert-danger" *ngIf = "hasPasswordValidationError">
+                        {{passwordValidationMessage}}
+                    </div> -->
+
+                </div>
+
+
+            </div>
+
+
+                <div class="row">
+
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label for="customerID">Country</label>
+                            <input
+                              type="text"
+                              class="form-control"
+                              id="country"
+                              formControlName="country"
+                              placeholder="Country (required)"
+                            />
+                        </div>
+    
+                        <!-- <div class="alert alert-danger" *ngIf = "hasPasswordValidationError">
+                            {{passwordValidationMessage}}
+                        </div> -->
+    
+                    </div>
+
+
+
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label for="customerID">State</label>
+                            <input
+                              type="text"
+                              class="form-control"
+                              id="state"
+                              formControlName="state"
+                              placeholder="State (required)"
+                            />
+                        </div>
+    
+                        <!-- <div class="alert alert-danger" *ngIf = "hasPasswordValidationError">
+                            {{passwordValidationMessage}}
+                        </div> -->
+    
+                    </div>
+
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label for="customerID">City</label>
+                            <input
+                              type="text"
+                              class="form-control"
+                              id="city"
+                              formControlName="city"
+                              placeholder="City (required)"
+                            />
+                        </div>
+    
+                        <!-- <div class="alert alert-danger" *ngIf = "hasPasswordValidationError">
+                            {{passwordValidationMessage}}
+                        </div> -->
+    
+                    </div>
+
+
+
+                </div>
+
+
+                <div class="row">
+
+
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label for="customerID">ZipCode</label>
+                            <input
+                              type="text"
+                              class="form-control"
+                              id="zip"
+                              formControlName="zip"
+                              placeholder="Zip (required)"
+                            />
+                        </div>
+    
+                        <!-- <div class="alert alert-danger" *ngIf = "hasPasswordValidationError">
+                            {{passwordValidationMessage}}
+                        </div> -->
+    
+                    </div>
+
+
+
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label for="customerID">FlatNumber</label>
+                            <input
+                              type="text"
+                              class="form-control"
+                              id="flatNumber"
+                              formControlName="flatNumber"
+                              placeholder="FlatNumber (required)"
+                            />
+                        </div>
+    
+                        <!-- <div class="alert alert-danger" *ngIf = "hasPasswordValidationError">
+                            {{passwordValidationMessage}}
+                        </div> -->
+    
+                    </div>
+
+
+
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label for="customerID">Street</label>
+                            <input
+                              type="text"
+                              class="form-control"
+                              id="street"
+                              formControlName="street"
+                              placeholder="Street (required)"
+                            />
+                        </div>
+    
+                        <!-- <div class="alert alert-danger" *ngIf = "hasPasswordValidationError">
+                            {{passwordValidationMessage}}
+                        </div> -->
+    
+                    </div>
+
+
+
+                </div>
+
+
+                <div class="row">
+
+
+
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="customerID">PhoneNumber</label>
+                            <input
+                              type="text"
+                              class="form-control"
+                              id="phone"
+                              formControlName="phone"
+                              placeholder="Phone Number (required)"
+                            />
+                        </div>
+    
+                        <!-- <div class="alert alert-danger" *ngIf = "hasPasswordValidationError">
+                            {{passwordValidationMessage}}
+                        </div> -->
+    
+                    </div>
+
+
+
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="customerID">Income</label>
+                            <input
+                              type="number"
+                              class="form-control"
+                              id="income"
+                              formControlName="income"
+                              placeholder="Income (required)"
+                            />
+                        </div>
+    
+                        <!-- <div class="alert alert-danger" *ngIf = "hasPasswordValidationError">
+                            {{passwordValidationMessage}}
+                        </div> -->
+    
+                    </div>
+
+
+
+
+
+                </div>
+
+
+            <div class="row">
+
+
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label>Upload your Signature</label>
+                        <input 
+                             type="file"
+                             class="file-input" 
+                             id="signature-upload"
+                             name="signature"
+                             (change)="onChangeOfSignatureFile($event)"
+                             required
+                             >
+                    </div>
+                    <div class="alert alert-danger" *ngIf = "detailsForm.get('signature').errors?.requiredFileType">
+                        <span>Please select valid(.png) file type</span>
+                    </div>
+                </div>
+
+
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label>Upload your Passport Size Photo</label>
+                        <input 
+                             type="file"
+                             class="file-input" 
+                             id="passport-upload"
+                             name="passport"
+                             (change)="onChangeOfPassportPhoto($event)"
+                             required
+                             >
+                             <!-- <span>{{this.passport ? this.passport.name : 'select file'}}</span> -->
+                    </div>
+                     <div class="alert alert-danger" *ngIf = "detailsForm.get('passport').errors?.requiredFileType">
+                            <span>Please select valid(.png) file type</span>
+                        </div>
+                </div>
+
+
+            </div>
+                <br/>
+                <div class="row">
+                    <div class="col-md-4">
+                    </div>
+
+
+                    <div class="col-md-4">
+                        <button
+                            type="submit"
+                            class="btn btn-success"
+                            [disabled]="!detailsForm.valid"
+                            [title]="detailsForm.valid ? 'Save entered data' : 'Submit button is disabled until form is filled'"
+                            >
+                            Submit your Details
+                        </button> 
+                    </div>
+
+
+                    <div class="col-md-4">
+                    </div>
+                </div>
+
+
+
+        </form>
+        
+    </div>
+
+
+    <div class="col-md-2">
+
+        
+    </div>
+</div>

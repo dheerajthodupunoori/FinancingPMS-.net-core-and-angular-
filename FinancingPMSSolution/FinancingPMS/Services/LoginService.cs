@@ -1,6 +1,8 @@
-﻿using FinancingPMS.Interfaces;
+﻿using FinancingPMS.Config;
+using FinancingPMS.Interfaces;
 using FinancingPMS.Models;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using System;
 using System.Collections.Generic;
@@ -22,23 +24,34 @@ namespace FinancingPMS.Services
         private string connectionString = string.Empty;
 
         private SqlConnection _connection;
-        public LoginService(IConfiguration configuration)
+
+        private AzureConfig azureConfigOptions;
+
+        private IAzureOperations _azureOperations;
+
+        public LoginService(IConfiguration configuration, IOptions<AzureConfig> azureConfig, IAzureOperations azureOperations)
         {
             _configuration = configuration;
-            connectionString = _configuration.GetConnectionString("DefaultConnection");
+            //connectionString = _configuration.GetConnectionString("DefaultConnection");
+            azureConfigOptions = azureConfig.Value;
+
+            _azureOperations = azureOperations;
+
+            connectionString = _azureOperations.GetConnectionStringFromAzureKeyVault(azureConfigOptions.KeyVaultName, azureConfigOptions.AzureSQLDatabaseSecretName);
+
             _connection = new SqlConnection(connectionString);
         }
 
 
 
-        public (bool , string) IsFirmRegistered(string FirmId)
+        public (bool, string) IsFirmRegistered(string FirmId)
         {
             bool isFirmRegistered = false;
             string message = string.Empty;
             SqlDataReader reader = null;
             try
             {
-                using(SqlCommand command = new SqlCommand())
+                using (SqlCommand command = new SqlCommand())
                 {
                     command.Connection = _connection;
                     command.CommandType = CommandType.Text;
@@ -49,14 +62,14 @@ namespace FinancingPMS.Services
                         _connection.Open();
                     }
                     reader = command.ExecuteReader();
-                    if(reader.HasRows)
+                    if (reader.HasRows)
                     {
                         isFirmRegistered = true;
                     }
                 }
 
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 isFirmRegistered = false;
                 message = ex.Message;
@@ -104,48 +117,48 @@ namespace FinancingPMS.Services
                     }
 
                     if (loginDetails.Password.Equals(password) && loginDetails.FirmId.Equals(firmId))
+                    {
+                        loginResponse.LoginStatus = true;
+
+
+                        //creating JWT token
+
+                        var secretKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("superSecretKey@345"));
+                        var signinCredentials = new SigningCredentials(secretKey, SecurityAlgorithms.HmacSha256);
+
+                        var tokeOptions = new JwtSecurityToken(
+                            issuer: "http://localhost:49366",
+                            audience: "http://localhost:49366",
+                            claims: new List<Claim>(),
+                            expires: DateTime.Now.AddMinutes(1),
+                            signingCredentials: signinCredentials
+                        );
+
+                        var tokenString = new JwtSecurityTokenHandler().WriteToken(tokeOptions);
+
+                        loginResponse.jsonToken = tokenString;
+
+                        //just checking whether firm details are saved or not.
+
+                        if (AreFirmDetailsSaved(loginDetails.FirmId))
                         {
-                            loginResponse.LoginStatus = true;
-
-
-                            //creating JWT token
-
-                            var secretKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("superSecretKey@345"));
-                            var signinCredentials = new SigningCredentials(secretKey, SecurityAlgorithms.HmacSha256);
-
-                            var tokeOptions = new JwtSecurityToken(
-                                issuer: "http://localhost:49366",
-                                audience: "http://localhost:49366",
-                                claims: new List<Claim>(),
-                                expires: DateTime.Now.AddMinutes(1),
-                                signingCredentials: signinCredentials
-                            );
-
-                            var tokenString = new JwtSecurityTokenHandler().WriteToken(tokeOptions);
-
-                            loginResponse.jsonToken = tokenString;
-
-                            //just checking whether firm details are saved or not.
-
-                            if (AreFirmDetailsSaved(loginDetails.FirmId))
-                            {
-                                loginResponse.AreFirmDetailsSaved = true;
-                            }
-
-                            else
-                            {
-                                loginResponse.AreFirmDetailsSaved = false;
-                            }
-
-
-
+                            loginResponse.AreFirmDetailsSaved = true;
                         }
+
                         else
                         {
-                            //loginResponse.ErrorMessage = "Incorrect Passowrd.Please enter valid credentials.";
-                            loginResponse.LoginStatus = false;
-                            throw new Exception("Incorrect Passowrd.Please enter valid credentials.");
+                            loginResponse.AreFirmDetailsSaved = false;
                         }
+
+
+
+                    }
+                    else
+                    {
+                        //loginResponse.ErrorMessage = "Incorrect Passowrd.Please enter valid credentials.";
+                        loginResponse.LoginStatus = false;
+                        throw new Exception("Incorrect Passowrd.Please enter valid credentials.");
+                    }
                 }
 
             }
@@ -201,5 +214,93 @@ namespace FinancingPMS.Services
 
             return areDetailsSaved;
         }
+
+
+        public CustomerLoginResponse ValidateCustomerLogin(CustomerLoginInfo customerLoginInfo)
+        {
+            CustomerLoginResponse customerLoginResponse = new CustomerLoginResponse();
+            string customerID = string.Empty;
+            string password = string.Empty;
+            bool isCustomerRegistered = false;
+            try
+            {
+                using (SqlCommand command = new SqlCommand())
+                {
+                    command.Connection = _connection;
+                    command.CommandType = CommandType.Text;
+                    command.CommandText = @"SELECT * FROM CustomerLoginDetails WHERE CustomerID=@Id";
+                    command.Parameters.AddWithValue("@Id", customerLoginInfo.CustomerID);
+
+                    if (_connection.State == ConnectionState.Closed)
+                    {
+                        _connection.Open();
+                    }
+                    using (SqlDataReader reader = command.ExecuteReader())
+                    {
+
+                        if (reader.HasRows)
+                        {
+                            while (reader.Read())
+                            {
+                                password = reader["Password"].ToString();
+                                customerID = reader["CustomerID"].ToString();
+                            }
+                            isCustomerRegistered = true;
+                        }
+                    }
+
+                    if (isCustomerRegistered && customerLoginInfo.Password.Equals(password) && customerLoginInfo.CustomerID.Equals(customerID))
+                    {
+                        customerLoginResponse.CustomerLoginStatus = true;
+                        //creating JWT token
+
+                        var secretKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("superSecretKey@345"));
+                        var signinCredentials = new SigningCredentials(secretKey, SecurityAlgorithms.HmacSha256);
+
+                        var tokeOptions = new JwtSecurityToken(
+                        issuer: "http://localhost:49366",
+                        audience: "http://localhost:49366",
+                        claims: new List<Claim>(),
+                        expires: DateTime.Now.AddMinutes(1),
+                        signingCredentials: signinCredentials
+                                     );
+
+                        var tokenString = new JwtSecurityTokenHandler().WriteToken(tokeOptions);
+
+                        customerLoginResponse.jsonToken = tokenString;
+
+                        //just checking whether firm details are saved or not.
+
+                        //if (AreFirmDetailsSaved(loginDetails.FirmId))
+                        //{
+                        //    loginResponse.AreFirmDetailsSaved = true;
+                        //}
+
+                        //else
+                        //{
+                        //    loginResponse.AreFirmDetailsSaved = false;
+                        //}
+                    }
+                    else
+                    {
+                        //loginResponse.ErrorMessage = "Incorrect Passowrd.Please enter valid credentials.";
+                        customerLoginResponse.CustomerLoginStatus = false;
+                        throw new Exception("Incorrect Passowrd.Please enter valid credentials/your are not registered");
+                    }
+                }
+
+            }
+            catch (Exception ex)
+            {
+                customerLoginResponse.ErrorMessage = ex.Message;
+            }
+            finally
+            {
+                _connection.Close();
+            }
+
+            return customerLoginResponse;
+        }
+
     }
 }

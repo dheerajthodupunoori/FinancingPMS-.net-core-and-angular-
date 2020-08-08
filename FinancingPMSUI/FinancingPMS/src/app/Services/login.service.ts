@@ -2,6 +2,9 @@ import { Injectable } from "@angular/core";
 import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { Observable, Subject, BehaviorSubject } from "rxjs";
 
+const customerLoginURL = "http://localhost:5000/api/Login/customerLogin";
+
+
 @Injectable({
   providedIn: "root",
 })
@@ -33,5 +36,9 @@ export class LoginService {
   updateLoginStatus(loginStatus: string) {
     sessionStorage.setItem("loginStatus", loginStatus);
     this.loginStatus.next(Boolean(sessionStorage.getItem("loginStatus")));
+  }
+
+  loginCustomer(customerLogin :any) : Observable<any> {
+      return this.http.post<any>(customerLoginURL , customerLogin);
   }
 }

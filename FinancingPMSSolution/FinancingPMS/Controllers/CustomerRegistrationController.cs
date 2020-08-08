@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using FinancingPMS.Interfaces;
 using FinancingPMS.Models;
 using IronOcr;
+using Microsoft.AspNetCore.Http.Extensions;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 
@@ -85,6 +86,15 @@ namespace FinancingPMS.Controllers
             var Results = Ocr.Read(img);
 
 
+            return Ok();
+        }
+
+
+        [HttpPost]
+        [Route("saveCustomerAdditionalDetails")]
+        public async Task<IActionResult> SaveCustomerAdditionalDetails([FromForm] CustomerAdditionalDetails customerAdditionalDetails)
+        {
+          
             return Ok();
         }
     }

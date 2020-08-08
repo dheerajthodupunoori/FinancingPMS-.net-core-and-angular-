@@ -22,15 +22,7 @@ namespace FinancingPMS.Controllers
 
         private ILoginService _loginService;
 
-        // GET: /<controller>/
-        public LoginController(ILoginService loginService)
-        {
-            _loginService = loginService;
-        }
-
-        //[ActionName("LoginFirm")]
-        //[Route("api/[controller]/FirmId/{Id}/Email/{Email}/PhoneNumber/{PhoneNumber}")]
-        //[HttpPost("Login")]
+        public LoginController(ILoginService loginService) => _loginService = loginService;
         [HttpPost]
         public LoginResponse LoginToFirm(LoginDetails loginDetails)
         {
@@ -49,9 +41,7 @@ namespace FinancingPMS.Controllers
                     loginResponse.ErrorMessage = response.Item2;
                     loginResponse.LoginStatus = false;
                 }
-
             }
-
             else
             {
                 loginResponse.LoginStatus = false;
@@ -61,6 +51,17 @@ namespace FinancingPMS.Controllers
             return loginResponse;
         }
 
+        [Route("customerLogin")]
+        [HttpPost]
+        public IActionResult LoginCustomer(CustomerLoginInfo customerLoginInfo)
+        {
+            if(ModelState.IsValid)
+            {
+                return Ok(_loginService.ValidateCustomerLogin(customerLoginInfo));
+            }
+            return BadRequest();
+        }
 
+       
     }
 }

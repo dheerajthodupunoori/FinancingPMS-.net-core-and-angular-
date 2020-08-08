@@ -13,5 +13,6 @@ namespace FinancingPMS.Interfaces
 
 
         public LoginResponse ValidateFirmLogin(LoginDetails loginDetails);
+        public CustomerLoginResponse ValidateCustomerLogin(CustomerLoginInfo customerLoginInfo);
     }
 }
