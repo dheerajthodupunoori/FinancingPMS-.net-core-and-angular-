@@ -44,7 +44,7 @@ namespace FinancingPMS
 
             services.AddSingleton<IFirmService, FirmService>();
 
-            services.AddSingleton<ICustomerRegistrationService, CustomerRegistrationService>();
+            services.AddScoped<ICustomerRegistrationService, CustomerRegistrationService>();
 
             services.Configure<AzureConfig>(Configuration.GetSection("AzureKeyValutConfig"));
 

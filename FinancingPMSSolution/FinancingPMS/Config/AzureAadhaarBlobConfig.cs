@@ -12,5 +12,9 @@ namespace FinancingPMS.Config
         public string ConnectionString { get; set; }
 
         public string FinancingAadhaarContainerName { get; set; }
+
+        public string FinancingPANContainerName { get; set; }
+
+        public string FinancingSignatureContainerName { get; set; }
     }
 }

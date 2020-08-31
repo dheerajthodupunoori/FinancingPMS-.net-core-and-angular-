@@ -1,4 +1,5 @@
 ﻿using FinancingPMS.Config;
+using FinancingPMS.Enums;
 using FinancingPMS.Interfaces;
 using FinancingPMS.Models;
 using Microsoft.Extensions.Configuration;
@@ -28,6 +29,10 @@ namespace FinancingPMS.Services
         private AzureConfig azureConfigOptions;
 
         private IAzureOperations _azureOperations;
+
+        private const string FIRMDETAILSQUERY = @"SELECT * FROM FirmDetails WHERE FirmId=@Id";
+
+        private const string CUSTOMERDETAILSQUERY = @"SELECT * FROM CustomerDetails WHERE CustomerID=@Id";
 
         public LoginService(IConfiguration configuration, IOptions<AzureConfig> azureConfig, IAzureOperations azureOperations)
         {
@@ -140,7 +145,7 @@ namespace FinancingPMS.Services
 
                         //just checking whether firm details are saved or not.
 
-                        if (AreFirmDetailsSaved(loginDetails.FirmId))
+                        if (AreDetailsSaved(loginDetails.FirmId , UserType.FirmOwner))
                         {
                             loginResponse.AreFirmDetailsSaved = true;
                         }
@@ -178,7 +183,7 @@ namespace FinancingPMS.Services
 
 
 
-        private bool AreFirmDetailsSaved(string firmID)
+        private bool AreDetailsSaved(string id , UserType user)
         {
             bool areDetailsSaved = false;
             SqlDataReader reader = null;
@@ -190,8 +195,21 @@ namespace FinancingPMS.Services
                 {
                     command.Connection = _connection;
                     command.CommandType = CommandType.Text;
-                    command.CommandText = @"SELECT * FROM FirmDetails WHERE FirmId=@Id";
-                    command.Parameters.AddWithValue("@Id", firmID);
+                    command.CommandText = string.Empty;
+
+
+                    switch(user)
+                    {
+                        case UserType.FirmOwner:
+                            command.CommandText = FIRMDETAILSQUERY;
+                            break;
+                        case UserType.Customer:
+                            command.CommandText = CUSTOMERDETAILSQUERY;
+                            break;
+                    }
+
+
+                    command.Parameters.AddWithValue("@Id", id);
 
                     if (_connection.State == ConnectionState.Closed)
                     {
@@ -269,21 +287,19 @@ namespace FinancingPMS.Services
 
                         customerLoginResponse.jsonToken = tokenString;
 
-                        //just checking whether firm details are saved or not.
 
-                        //if (AreFirmDetailsSaved(loginDetails.FirmId))
-                        //{
-                        //    loginResponse.AreFirmDetailsSaved = true;
-                        //}
+                        if (AreDetailsSaved(customerLoginInfo.CustomerID , UserType.Customer))
+                        {
+                            customerLoginResponse.AreCustomerAdditionalDetailsSaved = true;
+                        }
 
-                        //else
-                        //{
-                        //    loginResponse.AreFirmDetailsSaved = false;
-                        //}
+                        else
+                        {
+                            customerLoginResponse.AreCustomerAdditionalDetailsSaved = false;
+                        }
                     }
                     else
                     {
-                        //loginResponse.ErrorMessage = "Incorrect Passowrd.Please enter valid credentials.";
                         customerLoginResponse.CustomerLoginStatus = false;
                         throw new Exception("Incorrect Passowrd.Please enter valid credentials/your are not registered");
                     }

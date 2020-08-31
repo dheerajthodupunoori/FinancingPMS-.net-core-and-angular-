@@ -94,8 +94,13 @@ namespace FinancingPMS.Controllers
         [Route("saveCustomerAdditionalDetails")]
         public async Task<IActionResult> SaveCustomerAdditionalDetails([FromForm] CustomerAdditionalDetails customerAdditionalDetails)
         {
-          
-            return Ok();
+
+            if(ModelState.IsValid)
+            {
+                 _customerRegistrationService.SaveCustomerAdditionalDetails(customerAdditionalDetails);
+                return Ok();
+            }
+            return BadRequest();
         }
     }
 }
