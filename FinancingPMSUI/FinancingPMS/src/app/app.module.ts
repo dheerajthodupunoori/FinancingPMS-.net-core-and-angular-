@@ -21,6 +21,7 @@ import { CustomerRegistrationComponent } from './customer-registration/customer-
 import {ConfirmPassword} from './validators/password-confirmpwd-validator';
 import {AadhaarValidator} from './validators/aadhar-validator';
 import {EmailValidator} from './validators/email-validator';
+import {DOBValidator} from './validators/dob-validator';
 import { CustomerAdditionalDetailsComponent } from './customer-additional-details/customer-additional-details.component';
 
 
@@ -79,6 +80,7 @@ const appRoutes: Routes = [
     ConfirmPassword,
     AadhaarValidator,
     EmailValidator,
+    DOBValidator,
     CustomerAdditionalDetailsComponent
   ],
   imports: [

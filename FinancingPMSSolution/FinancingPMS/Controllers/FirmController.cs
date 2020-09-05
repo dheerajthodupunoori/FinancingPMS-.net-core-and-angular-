@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using FinancingPMS.Models;
 using Microsoft.AspNetCore.Mvc;
 using FinancingPMS.Interfaces;
+using Microsoft.Extensions.Logging;
 
 // For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -16,15 +17,19 @@ namespace FinancingPMS.Controllers
     {
 
         private IFirmService _firmService;
+
+        private ILogger _logger;
         // GET: /<controller>/
-        public FirmController(IFirmService firmService)
+        public FirmController(IFirmService firmService , ILogger<FirmController> logger)
         {
             _firmService = firmService;
+            _logger = logger;
         }
 
         [HttpGet]
         public IActionResult GetAllFirms()
         {
+            _logger.LogInformation("GetAllFirms execution started", null);
             List<Firm> firmsList = new List<Firm>();
             try
             {

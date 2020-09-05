@@ -16,6 +16,7 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
+using System.Data.SqlTypes;
 using System.IO;
 using System.Linq;
 using System.Net.Http;
@@ -37,8 +38,12 @@ namespace FinancingPMS.Services
 
         private IOptions<AzureAadhaarBlobConfig> _azureBlobConfig;
 
+        private const string CUSTOMERIDPREFIX = "FRM";
 
-        public CustomerRegistrationService(IConfiguration configuration, IOptions<AzureAadhaarBlobConfig> azureBlobConfig)
+        private IFirmService _firmService;
+
+
+        public CustomerRegistrationService(IConfiguration configuration, IOptions<AzureAadhaarBlobConfig> azureBlobConfig , IFirmService firmService)
         {
             _configuration = configuration;
 
@@ -47,6 +52,8 @@ namespace FinancingPMS.Services
             _connection = new SqlConnection(connectionString);
 
             _azureBlobConfig = azureBlobConfig;
+
+            _firmService = firmService;
         }
 
 
@@ -107,19 +114,42 @@ namespace FinancingPMS.Services
 
         private string GenerateCustomerID(CustomerLoginDetails customerLoginDetails)
         {
-            string customerID = "FRM";
-
-            if (!string.IsNullOrEmpty(customerLoginDetails.FirmID))
+            string customerID = string.Empty;
+            try
             {
-                customerID += customerLoginDetails.FirmID;
-            }
+                using (SqlCommand command = new SqlCommand("spGetNextCustomerID", _connection))
+                {
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.Parameters.AddWithValue("FirmID", customerLoginDetails.FirmID);
 
-            if (!string.IsNullOrEmpty(customerLoginDetails.AadhaarNumber))
+                    if (_connection.State == ConnectionState.Closed)
+                    {
+                        _connection.Open();
+                    }
+
+                    using(var reader = command.ExecuteReader())
+                    {
+                        if(reader.Read())
+                        {
+                            customerID = reader.GetString(0);
+                        }
+                    }
+                }
+            }
+            catch (SqlNullValueException ex)
             {
-                customerID += "UIDAI" + customerLoginDetails.AadhaarNumber.Substring(0, 3);
+                var firm = _firmService.GetFirmDetails(customerLoginDetails.FirmID);
+                throw new SqlNullValueException($"Number of customers to the Firm {customerLoginDetails.FirmID} reached maximum . Please contact Firm Owner. Phone Number : { firm.PhoneNumber } . EmailID : {firm.Email}" , ex);
             }
-
-            return !string.IsNullOrEmpty(customerID) ? customerID.Trim() : customerID;
+            catch(Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                _connection.Close();
+            }
+            return customerID.Trim();
         }
 
 
@@ -210,10 +240,10 @@ namespace FinancingPMS.Services
                                 {
                                     BlobFile = customerAdditionalDetails.passport,
                                     CustomerID = customerAdditionalDetails.customerID,
-                                    Type = BlobType.PAN
+                                    Type = BlobType.PASSPORTPHOTO
                                 });
 
-                                if(!result1)
+                                if (!result1)
                                 {
                                     throw new Exception("SaveToBlob failed");
                                 }

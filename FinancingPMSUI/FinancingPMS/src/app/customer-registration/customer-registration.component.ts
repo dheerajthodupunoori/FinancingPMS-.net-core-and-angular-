@@ -8,6 +8,7 @@ import { HttpEventType } from '@angular/common/http';
 import { Router } from '@angular/router';
 // import {Tesseract} from 'tesseract.js'
 
+
 @Component({
   selector: 'app-customer-registration',
   templateUrl: './customer-registration.component.html',
@@ -16,7 +17,7 @@ import { Router } from '@angular/router';
 export class CustomerRegistrationComponent implements OnInit {
 
   //initial details for formindex
- public details : RegisterCustomer = new RegisterCustomer("Dheeraj","Thodupunuri","Dilip Raju",new Date(),"","","","dheeraj.thodupunoori01@gmail.com");
+ public details : RegisterCustomer = new RegisterCustomer("Dheeraj","Thodupunuri","Dilip Raju",null,"","","","dheeraj.thodupunoori01@gmail.com");
 
  public firmDropdownListItems : any[];
 
@@ -36,10 +37,6 @@ export class CustomerRegistrationComponent implements OnInit {
 
  public aadhaarFileUploadErrorMessage : string;
 
-//  public isRegistrationStarted:boolean=false;
-
-//  public customerRegistrationValidationStatus = CustomerRegistrationStatusEnum.NotValidated;
- 
 
   constructor(private _firmService:FirmService,
             private _registerService:RegisterService,

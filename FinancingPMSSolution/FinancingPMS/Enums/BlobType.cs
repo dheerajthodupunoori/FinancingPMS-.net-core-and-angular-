@@ -8,7 +8,7 @@ namespace FinancingPMS.Enums
     public enum BlobType
     {
         Aadhaar,
-        PAN,
+        PASSPORTPHOTO,
         Signature
     }
 }

@@ -100,6 +100,7 @@ namespace FinancingPMS
                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("superSecretKey@345"))
                };
    });
+            services.AddApplicationInsightsTelemetry();
 
         }
 

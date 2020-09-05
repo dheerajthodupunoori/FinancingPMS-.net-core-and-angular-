@@ -3,7 +3,7 @@
         
     </div>
    <!-- {{registerCustomer.form.valid}} -->
-   {{details|json}}
+   <!-- {{details|json}} -->
    
 
 
@@ -98,8 +98,15 @@
                       [(ngModel)]="details.DOB"
                       name="dob"
                       #dob="ngModel"
+                      dobValidator
                       required
                     />
+            </div>
+            <div
+              *ngIf="dob.errors?.invaliddob && !dob.errors?.required"
+                class="alert alert-danger"
+              >
+                You are not eligible . Should be minimum of 20 years .
             </div>
         </div>
     </div>

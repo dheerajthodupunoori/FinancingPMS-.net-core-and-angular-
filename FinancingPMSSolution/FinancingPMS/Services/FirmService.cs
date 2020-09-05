@@ -3,6 +3,7 @@ using FinancingPMS.Models;
 using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Threading.Tasks;
@@ -17,6 +18,9 @@ namespace FinancingPMS.Services
         private string connectionString = string.Empty;
 
         private SqlConnection _connection;
+
+        private const string FIRMDETAILSQUERY = @"SELECT * FROM Firm WHERE Id=@Id";
+
         public FirmService(IConfiguration configuration)
         {
             _configuration = configuration;
@@ -60,7 +64,7 @@ namespace FinancingPMS.Services
                     }
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 throw ex;
             }
@@ -71,5 +75,65 @@ namespace FinancingPMS.Services
 
             return firmsList;
         }
+
+
+
+        public Firm GetFirmDetails(string FirmID)
+        {
+            Firm firmDetails = null;
+
+            try
+            {
+                using(SqlCommand command = new SqlCommand())
+                {
+                    command.CommandText = FIRMDETAILSQUERY;
+                    command.Connection = _connection;
+                    command.CommandType = CommandType.Text;
+
+                    command.Parameters.AddWithValue("Id", FirmID);
+
+
+                    if (_connection.State == ConnectionState.Closed)
+                    {
+                        _connection.Open();
+                    }
+
+                    using (var reader = command.ExecuteReader())
+                    {
+                        if (reader.HasRows)
+                        {
+                            while (reader.Read())
+                            {
+                                firmDetails = new Firm()
+                                {
+                                    Id = reader["Id"].ToString(),
+                                    Name = reader["Name"].ToString(),
+                                    PhoneNumber = reader["PhoneNumber"].ToString(),
+                                    Email = reader["Email"].ToString(),
+                                    Password = string.Empty
+                                };
+                            }
+                        }
+                    }
+
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                _connection.Close();
+            }
+
+
+
+            return firmDetails;
+        }
+
+
+
+
     }
 }

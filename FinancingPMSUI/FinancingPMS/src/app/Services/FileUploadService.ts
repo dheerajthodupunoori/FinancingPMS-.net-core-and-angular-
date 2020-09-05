@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
-
+import {FileUploadConfigLocal} from '../../config/file-upload-config';
+import {FileUploadConfigServer} from '../../config/file-upload-config';
 
 
 @Injectable({
@@ -9,21 +10,18 @@ import { Observable } from 'rxjs';
   })
 export class FileUploadOperationsService{
 
-    private aadhaarUploadForCustomerRegistrationURL = 
-    "http://localhost:5000/api/AzureBlobOperations​/UploadAadhaarImageToAzureBlobContainer";
+    // private aadhaarUploadForCustomerRegistrationURL = 
+    // "http://localhost:5000/api/AzureBlobOperations​/UploadAadhaarImageToAzureBlobContainer";
 
-    private imageToTextFunctionURL = "https://imagecontenttotext.azurewebsites.net/api/ExtractTextFromImage"; 
-    
-    private getTextFromImageURL = "http://localhost:5000/api/CustomerRegistration/GetTextFromImage";
-    
-
+    // private getTextFromImageURL = "http://localhost:5000/api/CustomerRegistration/GetTextFromImage";
 
     constructor(private http: HttpClient) {}
 
-
     uploadAadhaarImage(aadhaarImage : FormData , customerID:string):Observable<any>{
         
-        return this.http.post<any>("http://localhost:5000/api/AzureBlobOperations/UploadAadhaarImageToAzureBlobContainer", aadhaarImage,
+        return this.http.post<any>(FileUploadConfigServer.aadhaarUploadForCustomerRegistrationURL === "" ? FileUploadConfigLocal.aadhaarUploadForCustomerRegistrationURL : 
+        FileUploadConfigLocal.aadhaarUploadForCustomerRegistrationURL ,
+         aadhaarImage ,
         {
           reportProgress:true,
           params: new HttpParams().set('customerID', customerID)
@@ -33,10 +31,10 @@ export class FileUploadOperationsService{
     }
 
 
-    retrieveTextFromImage(aadhaarImage : FormData):Observable<any>{
+    // retrieveTextFromImage(aadhaarImage : FormData):Observable<any>{
 
-      return this.http.post<any>(this.getTextFromImageURL , aadhaarImage);
+    //   return this.http.post<any>(this.getTextFromImageURL , aadhaarImage);
 
-    }
+    // }
      
 }

@@ -17,7 +17,7 @@ namespace FinancingPMS.Utilities
             return type switch
             {
                 BlobType.Aadhaar => cloudBlobClient.GetContainerReference(_azureBlobConfig.Value.FinancingAadhaarContainerName),
-                BlobType.PAN => cloudBlobClient.GetContainerReference(_azureBlobConfig.Value.FinancingPANContainerName),
+                BlobType.PASSPORTPHOTO => cloudBlobClient.GetContainerReference(_azureBlobConfig.Value.FinancingPANContainerName),
                 BlobType.Signature => cloudBlobClient.GetContainerReference(_azureBlobConfig.Value.FinancingSignatureContainerName),
                 _ => throw new Exception("Invalid BlobType"),
             };
@@ -28,7 +28,7 @@ namespace FinancingPMS.Utilities
             return type switch
             {
                 BlobType.Aadhaar => !string.IsNullOrEmpty(customerID) ? $"{customerID}_aadhaar.png" : string.Empty,
-                BlobType.PAN => !string.IsNullOrEmpty(customerID) ? $"{customerID}_pan.png" : string.Empty,
+                BlobType.PASSPORTPHOTO => !string.IsNullOrEmpty(customerID) ? $"{customerID}_pan.png" : string.Empty,
                 BlobType.Signature => !string.IsNullOrEmpty(customerID) ? $"{customerID}_signature.png" : string.Empty,
                 _ => throw new Exception("Invalid BlobType"),
             };
