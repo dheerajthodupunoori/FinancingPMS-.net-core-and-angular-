@@ -1,21 +1,18 @@
-import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
-import {FirmConfigLocal} from '../../config/firm-config';
-import {FirmConfigServer} from '../../config/firm-config';
-
+import { Injectable } from "@angular/core";
+import { HttpClient } from "@angular/common/http";
+import { Observable } from "rxjs";
+import { ConfigUtility } from "../utilities/config-utility";
+import { Firm } from "../Enums/OperationType";
 
 @Injectable({
-    providedIn: "root"
-  })
-export class FirmService{
+  providedIn: "root",
+})
+export class FirmService {
+  // private urlForFirmDetailsDropdown = "http://localhost:5000/api/Firm";
 
-    // private urlForFirmDetailsDropdown = "http://localhost:5000/api/Firm";
+  constructor(private http: HttpClient) {}
 
-    constructor(private http: HttpClient) {}
-
-    getAllFirms():Observable<any>{
-        return this.http.get(FirmConfigServer.getAllFirms === "" ?  FirmConfigLocal.getAllFirms : FirmConfigServer.getAllFirms)
-    }
-
+  getAllFirms(): Observable<any> {
+    return this.http.get(ConfigUtility.GetURL(Firm.GetAllFirms));
+  }
 }

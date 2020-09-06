@@ -1,9 +1,7 @@
-export  const FirmConfigLocal = 
-{
-     getAllFirms : "http://localhost:5000/api/Firm"
-}
+export const FirmConfigLocal = {
+  getAllFirms: "http://localhost:5000/api/Firm",
+};
 
-export const FirmConfigServer = 
-{
-    getAllFirms : ""
-}
+export const FirmConfigServer = {
+  getAllFirms: "",
+};
