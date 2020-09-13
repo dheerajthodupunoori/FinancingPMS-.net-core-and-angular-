@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 using FinancingPMS.Config;
 using FinancingPMS.Enums;
@@ -13,6 +14,7 @@ using Microsoft.Azure.Storage;
 using Microsoft.Azure.Storage.Blob;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Options;
+using Microsoft.VisualBasic.CompilerServices;
 using BlobType = FinancingPMS.Enums.BlobType;
 
 // For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -44,7 +46,35 @@ namespace FinancingPMS.Controllers
         [HttpPost]
         public async Task<bool> InsertFile(string customerID, BlobType type = BlobType.Aadhaar)
         {
-            var file = Request.Form.Files[0];
+            IFormFile file = null;
+            byte[] fileByteContent = null;
+            if (Request.Form.Files.Count > 0)
+            {
+                 file = Request.Form.Files[0];
+            }
+            else
+            {
+              var input =  Request.Form.AsEnumerable();
+                
+                foreach(var keyvalue in input)
+                {
+                    if(keyvalue.Key.Equals("customerID"))
+                    {
+                        customerID = keyvalue.Value;
+                    }
+                    else if (keyvalue.Key.Equals("type"))
+                    {
+                       var type1 = keyvalue.Value.ToString();
+                       type = BlobUtilities.GetBlobType(type1);
+                    }
+                    else
+                    {
+                        var byteData = keyvalue.Value;
+                        var fileContent = byteData.ToString();
+                        fileByteContent = Encoding.UTF8.GetBytes(fileContent);
+                    }
+                }
+            }
             try
             {
                 if (CloudStorageAccount.TryParse(_azureBlobConfig.Value.ConnectionString, out CloudStorageAccount storageAccount))
@@ -55,7 +85,14 @@ namespace FinancingPMS.Controllers
 
                     CloudBlockBlob blockBlob = container.GetBlockBlobReference(BlobUtilities.GenerateUniqueAadhaarImageName(customerID, type));
 
-                    await blockBlob.UploadFromStreamAsync(file.OpenReadStream());
+                    if (file != null)
+                    {
+                        await blockBlob.UploadFromStreamAsync(file.OpenReadStream());
+                    }
+                    else
+                    {
+                        await blockBlob.UploadFromByteArrayAsync(fileByteContent, 0, fileByteContent.Length);
+                    }
 
                     return true;
                 }

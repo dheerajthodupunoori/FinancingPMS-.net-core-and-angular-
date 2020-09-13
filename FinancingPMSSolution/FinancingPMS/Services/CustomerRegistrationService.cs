@@ -42,8 +42,11 @@ namespace FinancingPMS.Services
 
         private IFirmService _firmService;
 
+        private IHttpClientFactory _httpClientFactory;
 
-        public CustomerRegistrationService(IConfiguration configuration, IOptions<AzureAadhaarBlobConfig> azureBlobConfig , IFirmService firmService)
+
+
+        public CustomerRegistrationService(IConfiguration configuration, IOptions<AzureAadhaarBlobConfig> azureBlobConfig , IFirmService firmService, IHttpClientFactory httpClientFactory)
         {
             _configuration = configuration;
 
@@ -54,6 +57,8 @@ namespace FinancingPMS.Services
             _azureBlobConfig = azureBlobConfig;
 
             _firmService = firmService;
+
+            _httpClientFactory = httpClientFactory;
         }
 
 
@@ -225,34 +230,52 @@ namespace FinancingPMS.Services
 
                     if (rowsaffected > 0)
                     {
-                        if (customerAdditionalDetails.signature != null)
+                        //var uri = "http://localhost:5000/api/AzureBlobOperations​/" + "UploadAadhaarImageToAzureBlobContainer";
+                        var client = _httpClientFactory.CreateClient();
+
+                        if (customerAdditionalDetails.signature.Length>0)
                         {
-                            var result = await SaveToAzureBlob(new BlobDetails()
+                            using(MemoryStream fs = new MemoryStream())
                             {
-                                BlobFile = customerAdditionalDetails.signature,
-                                CustomerID = customerAdditionalDetails.customerID,
-                                Type = BlobType.Signature
-                            });
-
-                            if (result && customerAdditionalDetails.passport != null)
-                            {
-                                var result1 = await SaveToAzureBlob(new BlobDetails()
-                                {
-                                    BlobFile = customerAdditionalDetails.passport,
-                                    CustomerID = customerAdditionalDetails.customerID,
-                                    Type = BlobType.PASSPORTPHOTO
-                                });
-
-                                if (!result1)
-                                {
-                                    throw new Exception("SaveToBlob failed");
-                                }
-                            }
-                            else
-                            {
-                                throw new Exception("SaveToBlob failed");
+                               await customerAdditionalDetails.signature.CopyToAsync(fs);
+                                var byteData = fs.ToArray();
+                                var byteContent = new ByteArrayContent(byteData);
+                                var content = new MultipartFormDataContent();
+                                content.Add(byteContent, "signature");
+                                content.Add(new StringContent(customerAdditionalDetails.customerID), "customerID");
+                                content.Add(new StringContent(BlobType.Signature.ToString()), "type");
+                                var response = await client.PostAsync("http://localhost:5000/api/AzureBlobOperations/UploadAadhaarImageToAzureBlobContainer", content);
                             }
                         }
+
+                        //if (customerAdditionalDetails.signature != null)
+                        //{
+                        //    var result = await SaveToAzureBlob(new BlobDetails()
+                        //    {
+                        //        BlobFile = customerAdditionalDetails.signature,
+                        //        CustomerID = customerAdditionalDetails.customerID,
+                        //        Type = BlobType.Signature
+                        //    });
+
+                        //    if (result && customerAdditionalDetails.passport != null)
+                        //    {
+                        //        var result1 = await SaveToAzureBlob(new BlobDetails()
+                        //        {
+                        //            BlobFile = customerAdditionalDetails.passport,
+                        //            CustomerID = customerAdditionalDetails.customerID,
+                        //            Type = BlobType.PASSPORTPHOTO
+                        //        });
+
+                        //        if (!result1)
+                        //        {
+                        //            throw new Exception("SaveToBlob failed");
+                        //        }
+                        //    }
+                        //    else
+                        //    {
+                        //        throw new Exception("SaveToBlob failed");
+                        //    }
+                        //}
                     }
 
                     transaction.Commit();

@@ -33,5 +33,16 @@ namespace FinancingPMS.Utilities
                 _ => throw new Exception("Invalid BlobType"),
             };
         }
+
+        public static BlobType GetBlobType(string type)
+        {
+            return type switch
+            {
+                "Signature" => BlobType.Signature,
+                "Aadhaar" => BlobType.Aadhaar,
+                "PASSPORTPHOTO" => BlobType.PASSPORTPHOTO,
+                _ => throw new Exception("Invalid BlobType"),
+            };
+        }
     }
 }
