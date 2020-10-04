@@ -8,7 +8,6 @@ using System.Threading;
 using System.Threading.Tasks;
 using FinancingPMS.Interfaces;
 using FinancingPMS.Models;
-using IronOcr;
 using Microsoft.AspNetCore.Http.Extensions;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
@@ -66,29 +65,29 @@ namespace FinancingPMS.Controllers
         }
 
 
-        [HttpPost]
-        [Route("GetTextFromImage")]
-        public async Task<IActionResult> GetTextFromImageAsync()
-        {
-            var file = Request.Form.Files[0];
-            Image img = null;
+        //[HttpPost]
+        //[Route("GetTextFromImage")]
+        //public async Task<IActionResult> GetTextFromImageAsync()
+        //{
+        //    var file = Request.Form.Files[0];
+        //    Image img = null;
 
-            using (var memoryStream = new MemoryStream())
-            {
-                await file.CopyToAsync(memoryStream);
-                img = Image.FromStream(memoryStream);
-            }
+        //    using (var memoryStream = new MemoryStream())
+        //    {
+        //        await file.CopyToAsync(memoryStream);
+        //        img = Image.FromStream(memoryStream);
+        //    }
 
-            var Ocr = new AdvancedOcr()
-            {
-                ReadBarCodes = false
-            };
+        //    var Ocr = new AdvancedOcr()
+        //    {
+        //        ReadBarCodes = false
+        //    };
           
-            var Results = Ocr.Read(img);
+        //    var Results = Ocr.Read(img);
 
 
-            return Ok();
-        }
+        //    return Ok();
+        //}
 
 
         [HttpPost]

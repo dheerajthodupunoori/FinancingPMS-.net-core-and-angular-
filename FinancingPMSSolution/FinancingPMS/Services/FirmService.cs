@@ -1,48 +1,55 @@
 ﻿using FinancingPMS.Interfaces;
+using FinancingPMS.Logger;
 using FinancingPMS.Models;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace FinancingPMS.Services
 {
     public class FirmService : IFirmService
     {
 
-        private IConfiguration _configuration;
+        private const string GETALLFIRMS_SP = "spGetAllFirmDetails";
 
-        private string connectionString = string.Empty;
+        private readonly IConfiguration _configuration;
 
-        private SqlConnection _connection;
+        private readonly string connectionString = string.Empty;
+
+        private readonly SqlConnection _connection;
+
+        private readonly ILogger<FirmService> _logger;
 
         private const string FIRMDETAILSQUERY = @"SELECT * FROM Firm WHERE Id=@Id";
 
-        public FirmService(IConfiguration configuration)
+        public FirmService(IConfiguration configuration , ILogger<FirmService> logger)
         {
             _configuration = configuration;
             connectionString = _configuration.GetConnectionString("DefaultConnection");
             _connection = new SqlConnection(connectionString);
+            _logger = logger;
         }
 
 
-        public List<Firm> GetAllFirms()
+        public List<Firm> GetAllFirms(string transactionID)
         {
             List<Firm> firmsList = new List<Firm>();
+            FinancingPMSLogger financingPMSLogger = new FinancingPMSLogger("GetAllFirms service (DB call) has started", transactionID);
             SqlDataReader reader = null;
-
+            _logger.LogInformation(message: financingPMSLogger.ToString());
             try
             {
+                using(_logger.BeginScope("GetAllFirms"))
                 using (SqlCommand sqlCommand = new SqlCommand())
                 {
                     sqlCommand.Connection = _connection;
-                    sqlCommand.CommandType = System.Data.CommandType.StoredProcedure;
-                    sqlCommand.CommandText = "spGetAllFirmDetails";
+                    sqlCommand.CommandType = CommandType.StoredProcedure;
+                    sqlCommand.CommandText = GETALLFIRMS_SP;
 
-                    if (_connection.State == System.Data.ConnectionState.Closed)
+                    if (_connection.State == ConnectionState.Closed)
                     {
                         _connection.Open();
                     }
@@ -66,13 +73,16 @@ namespace FinancingPMS.Services
             }
             catch (Exception ex)
             {
+                financingPMSLogger.message = "Error occured while getting Firms list from database";
+                _logger.LogError(exception: ex, message: financingPMSLogger.ToString());
                 throw ex;
             }
             finally
             {
                 _connection.Close();
             }
-
+            financingPMSLogger.message = "GetAllFirms service (DB call) has ended";
+            _logger.LogInformation(message: financingPMSLogger.ToString());
             return firmsList;
         }
 
@@ -126,9 +136,6 @@ namespace FinancingPMS.Services
             {
                 _connection.Close();
             }
-
-
-
             return firmDetails;
         }
 

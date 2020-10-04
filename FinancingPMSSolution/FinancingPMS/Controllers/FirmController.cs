@@ -6,6 +6,7 @@ using FinancingPMS.Models;
 using Microsoft.AspNetCore.Mvc;
 using FinancingPMS.Interfaces;
 using Microsoft.Extensions.Logging;
+using FinancingPMS.Logger;
 
 // For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -16,10 +17,9 @@ namespace FinancingPMS.Controllers
     public class FirmController : ControllerBase
     {
 
-        private IFirmService _firmService;
+        private readonly IFirmService _firmService;
 
-        private ILogger _logger;
-        // GET: /<controller>/
+        private readonly ILogger _logger;
         public FirmController(IFirmService firmService , ILogger<FirmController> logger)
         {
             _firmService = firmService;
@@ -29,11 +29,13 @@ namespace FinancingPMS.Controllers
         [HttpGet]
         public IActionResult GetAllFirms()
         {
-            _logger.LogInformation("GetAllFirms execution started", null);
+            Guid transactionID = Guid.NewGuid();
+            FinancingPMSLogger logMessage = new FinancingPMSLogger("GetAllFirms execution started", transactionID.ToString());
+            _logger.LogInformation(message : logMessage.ToString());
             List<Firm> firmsList = new List<Firm>();
             try
             {
-                firmsList = _firmService.GetAllFirms();
+                firmsList = _firmService.GetAllFirms(transactionID.ToString());
                 if (firmsList.Count == 0)
                 {
                     return StatusCode(204);
@@ -43,7 +45,8 @@ namespace FinancingPMS.Controllers
             {
                 return StatusCode(500, ex);
             }
-
+            logMessage.message = "GetAllFirms execution ended";
+            _logger.LogInformation(message:logMessage.ToString());
             return Ok(firmsList);
         }
     }

@@ -1,22 +1,19 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 using System.Reflection;
 using System.IO;
 using FinancingPMS.Interfaces;
 using FinancingPMS.Services;
-using FinancingPMS.Config;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
+using FinancingPMS.ServiceDependencies;
+using Microsoft.AspNetCore.Http;
+using FinancingPMS.Middlewares;
 
 namespace FinancingPMS
 {
@@ -46,11 +43,7 @@ namespace FinancingPMS
 
             services.AddScoped<ICustomerRegistrationService, CustomerRegistrationService>();
 
-            services.Configure<AzureConfig>(Configuration.GetSection("AzureKeyValutConfig"));
-
-            services.Configure<AzureAadhaarBlobConfig>(Configuration.GetSection("AzureAadhaarBlobConfig"));
-            
-            //services.AddCors();
+            services.AddAppConfiguration(Configuration);
 
             services.AddCors(options =>
             {
@@ -99,7 +92,7 @@ namespace FinancingPMS
                    ValidAudience = "",
                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("superSecretKey@345"))
                };
-   });
+           });
             services.AddApplicationInsightsTelemetry();
 
             services.AddHttpClient();
@@ -112,7 +105,6 @@ namespace FinancingPMS
             {
                 app.UseDeveloperExceptionPage();
             }
-
             app.UseStaticFiles();
 
             //app.UseCors(builder => builder.WithOrigkins("http://localhost:4200"));
@@ -129,11 +121,22 @@ namespace FinancingPMS
                 c.RoutePrefix = String.Empty;
             });
 
+            
+
+            app.Map("/swagger", (appBuilder) =>
+           {
+               appBuilder.Run(async (context) =>
+               {
+                   await context.Response.WriteAsync("<h1 style='text-align:center;position:center'>Please navigate to localhost</h1>");
+               });
+           });
             app.UseRouting();
 
             app.UseAuthentication();
 
             app.UseAuthorization();
+
+            app.UseHttpRequestTimeMiddleware();
 
             app.UseEndpoints(endpoints =>
             {
