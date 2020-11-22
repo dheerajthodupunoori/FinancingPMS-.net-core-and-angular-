@@ -1,8 +1,10 @@
-﻿using FinancingPMS.Interfaces;
+﻿using FinancingPMS.Config;
+using FinancingPMS.Interfaces;
 using FinancingPMS.Logger;
 using FinancingPMS.Models;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -23,12 +25,19 @@ namespace FinancingPMS.Services
 
         private readonly ILogger<FirmService> _logger;
 
+        private readonly AzureConfig azureConfigOptions;
+
+        private readonly IAzureOperations _azureOperations;
+
         private const string FIRMDETAILSQUERY = @"SELECT * FROM Firm WHERE Id=@Id";
 
-        public FirmService(IConfiguration configuration , ILogger<FirmService> logger)
+        public FirmService(IConfiguration configuration , ILogger<FirmService> logger, IOptions<AzureConfig> azureConfig, IAzureOperations azureOperations)
         {
             _configuration = configuration;
-            connectionString = _configuration.GetConnectionString("DefaultConnection");
+            azureConfigOptions = azureConfig.Value;
+            _azureOperations = azureOperations;
+            //connectionString = _configuration.GetConnectionString("DefaultConnection");
+            connectionString = _azureOperations.GetConnectionStringFromAzureKeyVault(azureConfigOptions.KeyVaultName, azureConfigOptions.AzureSQLDatabaseSecretName);
             _connection = new SqlConnection(connectionString);
             _logger = logger;
         }

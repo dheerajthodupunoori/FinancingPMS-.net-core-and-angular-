@@ -1,4 +1,5 @@
 ﻿using FinancingPMS.Config;
+using FinancingPMS.Enums;
 using FinancingPMS.Interfaces;
 using FinancingPMS.Models;
 using Microsoft.AspNetCore.Mvc;
@@ -21,13 +22,13 @@ namespace FinancingPMS.Services
 
         private SqlConnection _connection ;
 
-        private AzureConfig azureConfigOptions;
+        private readonly AzureConfig azureConfigOptions;
 
-        private IAzureOperations _azureOperations;
+        private readonly IAzureOperations _azureOperations;
 
+        private INotificationService _notificationService;
 
-
-        public RegistrationService(IConfiguration configuration , IOptions<AzureConfig> azureConfig,IAzureOperations azureOperations)
+        public RegistrationService(IConfiguration configuration , IOptions<AzureConfig> azureConfig,IAzureOperations azureOperations , INotificationService notificationService)
         {
             _configuration = configuration;
 
@@ -37,9 +38,11 @@ namespace FinancingPMS.Services
 
             _azureOperations = azureOperations;
 
-            connectionString = _azureOperations.GetConnectionStringFromAzureKeyVault(azureConfigOptions.KeyVaultName , azureConfigOptions.AzureSQLDatabaseSecretName);
+            connectionString = _azureOperations.GetConnectionStringFromAzureKeyVault(azureConfigOptions.KeyVaultName, azureConfigOptions.AzureSQLDatabaseSecretName);
 
             _connection = new SqlConnection(connectionString);
+
+            _notificationService = notificationService;
         }
 
         public FirmRegistrationResponse RegisterFirmOwner(Firm firm)
@@ -72,6 +75,21 @@ namespace FinancingPMS.Services
                     {
                         firmRegistrationResponse.RegistrationStatus = true;
                         firmRegistrationResponse.SuccessMessage = "Your Firm Registered successfully";
+
+                        //Sending notification after successfull registration
+
+                        NotificationDetails notificationDetails = new NotificationDetails()
+                        {
+                            NotificationType = NotificationType.FirmOwnerRegistration.ToString(),
+                            Body = "Your Firm is successfully registered and please find your registration details below." +
+                                               Environment.NewLine + "Firm Name : " + firm.Name +
+                                               Environment.NewLine + "Firm ID : " + firm.Id +
+                                               Environment.NewLine + "Phone Number : " + firm.PhoneNumber +
+                                               Environment.NewLine + "Email ID : " + firm.Email,
+                            Subject = "FinancingPMS Firm Owner Registration Update"
+                        };
+
+                        _notificationService.SendNotification(notificationDetails);
                     }
                     else
                     {
@@ -156,6 +174,23 @@ namespace FinancingPMS.Services
                     }
 
                     int rowsAffected = sqlCommand.ExecuteNonQuery();
+
+                    //Sending notification after saving the firm additional details.
+
+                    NotificationDetails notificationDetails = new NotificationDetails()
+                    {
+                        NotificationType = NotificationType.FirmAdditionalDetailsSave.ToString(),
+                        Body = "Your firm details with firmID "+ firmAddress.FirmId +" are saved . Below are the details provided ." +
+                                                 Environment.NewLine + Environment.NewLine + 
+                                                 "Address1 : " + firmAddress.Address1 +
+                                                 Environment.NewLine + "Address2 : " + firmAddress.Address2 +
+                                                 Environment.NewLine + "City : " + firmAddress.City+
+                                                 Environment.NewLine + "State : " + firmAddress.State+
+                                                 Environment.NewLine + "Zip : " + firmAddress.Zip,
+                        Subject = "FinancingPMS Firm additional details update."
+                    };
+
+                    _notificationService.SendNotification(notificationDetails);
                 }
             }
             finally

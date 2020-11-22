@@ -10,5 +10,7 @@ namespace FinancingPMS.Config
         public string KeyVaultName { get; set; }
 
         public string AzureSQLDatabaseSecretName { get; set; }
+
+        public string AzureSQLDataBaseConnectionStringSecretVersion { get; set; }
     }
 }

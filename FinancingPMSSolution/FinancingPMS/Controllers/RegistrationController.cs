@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using FinancingPMS.Enums;
 using FinancingPMS.Interfaces;
 using FinancingPMS.Models;
 using Microsoft.AspNetCore.Mvc;
@@ -19,18 +20,22 @@ namespace FinancingPMS.Controllers
 
         public IConfiguration _configuration;
 
-        private string connectionString = string.Empty;
+        //private string connectionString = string.Empty;
 
         private IRegistration _registrationService;
 
+        private INotificationService _notificationService;
 
-        public RegistrationController(IConfiguration configuration, IRegistration registrationService)
+
+        public RegistrationController(IConfiguration configuration, IRegistration registrationService , INotificationService notificationService)
         {
             _configuration = configuration;
 
-            connectionString = _configuration.GetConnectionString("DefaultConnection");
+            //connectionString = _configuration.GetConnectionString("DefaultConnection");
 
             _registrationService = registrationService;
+
+            _notificationService = notificationService;
         }
 
         [ActionName("RegisterFirmOwner")]
@@ -67,6 +72,26 @@ namespace FinancingPMS.Controllers
             }
 
             return Ok();
+        }
+
+        [HttpPost]
+        [Route("SendNotification")]
+        public void SendNotification()
+        {
+
+            NotificationDetails notificationDetails = new NotificationDetails()
+            {
+                NotificationType = NotificationType.FirmOwnerRegistration.ToString(),
+                Body = "Your Firm is successfully registered and please find your registration details below." +
+                                              Environment.NewLine + "Firm Name : " + 
+                                              Environment.NewLine + "Firm ID : " +
+                                              Environment.NewLine + "Phone Number : " +
+                                              Environment.NewLine + "Email ID : " ,
+                Subject = "FinancingPMS Firm Owner Registration Update"
+            };
+
+
+            _notificationService.SendNotification(notificationDetails);
         }
 
     }

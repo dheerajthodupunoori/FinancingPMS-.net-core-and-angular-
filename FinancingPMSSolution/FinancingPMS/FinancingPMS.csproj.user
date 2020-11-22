@@ -4,7 +4,8 @@
     <DebuggerFlavor>ProjectDebugger</DebuggerFlavor>
   </PropertyGroup>
   <PropertyGroup>
-    <ActiveDebugProfile>FinancingPMS</ActiveDebugProfile>
-    <NameOfLastUsedPublishProfile>FinancingPMS - Web Deploy1</NameOfLastUsedPublishProfile>
+    <ActiveDebugProfile>IIS Express</ActiveDebugProfile>
+    <NameOfLastUsedPublishProfile>FinancingPMSAPI</NameOfLastUsedPublishProfile>
+    <AutoRefresh>false</AutoRefresh>
   </PropertyGroup>
 </Project>

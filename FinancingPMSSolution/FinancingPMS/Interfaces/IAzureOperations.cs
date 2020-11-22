@@ -7,6 +7,6 @@ namespace FinancingPMS.Interfaces
 {
     public  interface IAzureOperations
     {
-       public  string GetConnectionStringFromAzureKeyVault(string keyVaultName , string secretName);
+       public  string GetConnectionStringFromAzureKeyVault(string keyVaultName , string secretName , string version = "");
     }
 }

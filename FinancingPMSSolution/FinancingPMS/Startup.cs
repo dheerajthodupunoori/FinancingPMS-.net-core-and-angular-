@@ -41,6 +41,8 @@ namespace FinancingPMS
 
             services.AddSingleton<IFirmService, FirmService>();
 
+            services.AddTransient<INotificationService, NotificationService>();
+
             services.AddScoped<ICustomerRegistrationService, CustomerRegistrationService>();
 
             services.AddAppConfiguration(Configuration);
@@ -95,7 +97,14 @@ namespace FinancingPMS
            });
             services.AddApplicationInsightsTelemetry();
 
-            services.AddHttpClient();
+            //services.AddHttpClient();
+
+            services.AddHttpClient("NotificationClient", notificationClient =>
+           {
+               notificationClient.BaseAddress =new Uri("http://localhost:5000");
+               notificationClient.DefaultRequestHeaders.Clear();
+
+           });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

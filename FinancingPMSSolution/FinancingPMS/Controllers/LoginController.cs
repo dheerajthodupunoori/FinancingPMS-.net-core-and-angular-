@@ -38,7 +38,7 @@ namespace FinancingPMS.Controllers
                 }
                 else
                 {
-                    loginResponse.ErrorMessage = response.Item2;
+                    loginResponse.ErrorMessage = !string.IsNullOrEmpty(response.Item2) ? response.Item2 : "Firm is not registered yet . Please register your Firm to login.";
                     loginResponse.LoginStatus = false;
                 }
             }
