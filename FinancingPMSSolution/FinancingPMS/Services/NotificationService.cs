@@ -13,7 +13,6 @@ namespace FinancingPMS.Services
 
         private IHttpClientFactory _httpClientFactory;
 
-
         public NotificationService(IHttpClientFactory httpClientFactory)
         {
             _httpClientFactory = httpClientFactory;
