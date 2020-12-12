@@ -8,8 +8,8 @@ namespace FinancingPMS.Test
 {
     public class FirmControllerTest
     {
-        private readonly IFirmService _firmService;
-        private readonly ILogger _logger;
+        //private readonly IFirmService _firmService;
+        //private readonly ILogger _logger;
 
         public FirmControllerTest()
         {

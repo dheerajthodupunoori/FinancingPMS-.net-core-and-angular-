@@ -12,6 +12,6 @@ namespace FinancingPMS.Interfaces
 
         public string PerformCustomerRegistration(CustomerLoginDetails customerLoginDetails);
 
-        public void SaveCustomerAdditionalDetails(CustomerAdditionalDetails customerAdditionalDetails);
+        public Task<string >SaveCustomerAdditionalDetails(CustomerAdditionalDetails customerAdditionalDetails);
     }
 }

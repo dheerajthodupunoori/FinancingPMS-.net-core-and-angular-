@@ -96,7 +96,7 @@ namespace FinancingPMS.Controllers
         {
             if(ModelState.IsValid)
             {
-                 _customerRegistrationService.SaveCustomerAdditionalDetails(customerAdditionalDetails);
+                await _customerRegistrationService.SaveCustomerAdditionalDetails(customerAdditionalDetails);
                 return Ok();
             }
             return BadRequest();

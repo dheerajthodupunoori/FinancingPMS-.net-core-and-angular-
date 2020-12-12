@@ -195,7 +195,7 @@ namespace FinancingPMS.Services
             return isCustomerAlreadyRegistered;
         }
 
-        public async void SaveCustomerAdditionalDetails(CustomerAdditionalDetails customerAdditionalDetails)
+        public async Task<string> SaveCustomerAdditionalDetails(CustomerAdditionalDetails customerAdditionalDetails)
         {
             SqlTransaction transaction = null;
             try
@@ -290,6 +290,8 @@ namespace FinancingPMS.Services
             {
                 _connection.Close();
             }
+
+            return string.Empty;
         }
 
 
