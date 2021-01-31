@@ -38,7 +38,7 @@ namespace FinancingPMS.Services
 
             _azureOperations = azureOperations;
 
-            connectionString = _azureOperations.GetConnectionStringFromAzureKeyVault(azureConfigOptions.KeyVaultName, azureConfigOptions.AzureSQLDatabaseSecretName);
+            //connectionString = _azureOperations.GetConnectionStringFromAzureKeyVault(azureConfigOptions.KeyVaultName, azureConfigOptions.AzureSQLDatabaseSecretName);
 
             _connection = new SqlConnection(connectionString);
 
@@ -86,7 +86,8 @@ namespace FinancingPMS.Services
                                                Environment.NewLine + "Firm ID : " + firm.Id +
                                                Environment.NewLine + "Phone Number : " + firm.PhoneNumber +
                                                Environment.NewLine + "Email ID : " + firm.Email,
-                            Subject = "FinancingPMS Firm Owner Registration Update"
+                            Subject = "FinancingPMS Firm Owner Registration Update",
+                            ReceiverMailID = firm.Email
                         };
 
                         _notificationService.SendNotification(notificationDetails);

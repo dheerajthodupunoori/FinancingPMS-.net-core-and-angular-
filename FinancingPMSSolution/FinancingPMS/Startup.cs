@@ -14,6 +14,10 @@ using System.Text;
 using FinancingPMS.ServiceDependencies;
 using Microsoft.AspNetCore.Http;
 using FinancingPMS.Middlewares;
+using Microsoft.AspNetCore.Mvc;
+using static FinancingPMS.ServiceDependencies.RemoveVersionFromParameter;
+using Swashbuckle.AspNetCore.SwaggerGen;
+using System.Linq;
 
 namespace FinancingPMS
 {
@@ -31,6 +35,13 @@ namespace FinancingPMS
         {
             services.AddControllers();
 
+            services.AddApiVersioning(options =>
+            {
+                options.DefaultApiVersion = new ApiVersion(1, 0);
+                options.AssumeDefaultVersionWhenUnspecified = true;
+                options.ReportApiVersions = true;
+            });
+
             services.AddSingleton<IConfiguration>(Configuration);
 
             services.AddSingleton<IRegistration, RegistrationService>();
@@ -43,6 +54,8 @@ namespace FinancingPMS
 
             services.AddTransient<INotificationService, NotificationService>();
 
+            services.AddTransient<IUpdateFirmDetails, UpdateFirmDetailsService>();
+
             services.AddScoped<ICustomerRegistrationService, CustomerRegistrationService>();
 
             services.AddAppConfiguration(Configuration);
@@ -53,7 +66,13 @@ namespace FinancingPMS
                     builder => builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
             });
 
-            services.AddMvc(options => options.EnableEndpointRouting = false);
+            services.AddMvc(options =>
+            {
+                options.EnableEndpointRouting = false;
+            //    options.Conventions.Add(
+            //new ApiExplorerGroupPerVersionConvention());
+
+            });
 
             services.AddSwaggerGen(options =>
             {
@@ -65,8 +84,44 @@ namespace FinancingPMS
                         Name = "Dheeraj Thodupunuri",
                     },
                     Description = "Financing PMS API",
-                    Title = "FinancingPMS",
+                    Title = "FinancingPMS Version1",
                     Version = "V1"
+                });
+
+                options.SwaggerDoc("Version2", new Microsoft.OpenApi.Models.OpenApiInfo
+                {
+                    Contact = new Microsoft.OpenApi.Models.OpenApiContact()
+                    {
+                        Email = "dheeraj.thodupunoori01@gmail.com",
+                        Name = "Dheeraj Thodupunuri",
+                    },
+                    Description = "Financing PMS API",
+                    Title = "FinancingPMS Version2",
+                    Version = "V2"
+                });
+                //options.ExampleFilters();
+
+                options.OperationFilter<RemoveVersionFromParameter>();
+                options.DocumentFilter<ReplaceVersionWithExactValueInPath>();
+
+                options.DocInclusionPredicate((version, desc) =>
+                {
+                    if (!desc.TryGetMethodInfo(out MethodInfo methodInfo))
+                        return false;
+
+                    var versions = methodInfo.DeclaringType
+                    .GetCustomAttributes(true)
+                    .OfType<ApiVersionAttribute>()
+                    .SelectMany(attr => attr.Versions);
+
+                    var maps = methodInfo
+                    .GetCustomAttributes(true)
+                    .OfType<MapToApiVersionAttribute>()
+                    .SelectMany(attr => attr.Versions)
+                    .ToArray();
+
+                    return versions.Any(v => $"Version{v.ToString()}" == version)
+                    && (!maps.Any() || maps.Any(v => $"Version{v.ToString()}" == version));
                 });
 
                 //Including XML comments.
@@ -101,7 +156,7 @@ namespace FinancingPMS
 
             services.AddHttpClient("NotificationClient", notificationClient =>
            {
-               notificationClient.BaseAddress =new Uri("http://localhost:5000");
+               notificationClient.BaseAddress = new Uri("http://localhost:5000");
                notificationClient.DefaultRequestHeaders.Clear();
 
            });
@@ -127,10 +182,11 @@ namespace FinancingPMS
             app.UseSwaggerUI(c =>
             {
                 c.SwaggerEndpoint("/swagger/Version1/swagger.json", "Version1");
+                c.SwaggerEndpoint($"/swagger/Version2/swagger.json", $"Version2");
                 c.RoutePrefix = String.Empty;
             });
 
-            
+
 
             app.Map("/swagger", (appBuilder) =>
            {

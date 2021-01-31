@@ -19,7 +19,7 @@ namespace FinancingPMS.Services
         }
 
 
-        public void SendNotification(NotificationDetails notificationDetails)
+        public string SendNotification(NotificationDetails notificationDetails)
         {
             httpClient = _httpClientFactory.CreateClient("NotificationClient");
 
@@ -28,6 +28,8 @@ namespace FinancingPMS.Services
             httpRequestMessage.Content = stringContent;
 
             var response = httpClient.SendAsync(httpRequestMessage);
+
+            return response.Result.Content.ReadAsStringAsync().Result.ToString();
         }
     }
 }

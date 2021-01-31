@@ -9,7 +9,6 @@ namespace FinancingPMS.Interfaces
 {
     public interface IFirmService
     {
-
         public List<Firm> GetAllFirms(string transactionID);
 
         public Firm GetFirmDetails(string ID);

@@ -14,8 +14,9 @@ namespace FinancingPMS.Controllers
 
 
     [Produces("application/json")]
-    [Route("api/[controller]")]
+    [Route("api/v{version:apiVersion}/[controller]")]
     [ApiController]
+    [ApiVersion("1")]
     public class LoginController : ControllerBase
     {
 

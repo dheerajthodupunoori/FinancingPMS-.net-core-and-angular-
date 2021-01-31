@@ -4,6 +4,6 @@ namespace FinancingPMS.Interfaces
 {
     public interface INotificationService
     {
-        public void SendNotification(NotificationDetails notificationDetails);
+        public string SendNotification(NotificationDetails notificationDetails);
     }
 }

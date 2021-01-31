@@ -14,7 +14,8 @@ namespace FinancingPMS.Controllers
 {
 
     [Produces("application/json")]
-    [Route("api/[controller]")]
+    [Route("api/v{version:apiVersion}/[controller]")]
+    [ApiVersion("1")]
     public class RegistrationController : Controller
     {
 
@@ -76,22 +77,24 @@ namespace FinancingPMS.Controllers
 
         [HttpPost]
         [Route("SendNotification")]
-        public void SendNotification()
+        public string SendNotification(NotificationDetails notificationDetails)
         {
 
-            NotificationDetails notificationDetails = new NotificationDetails()
-            {
-                NotificationType = NotificationType.FirmOwnerRegistration.ToString(),
-                Body = "Your Firm is successfully registered and please find your registration details below." +
-                                              Environment.NewLine + "Firm Name : " + 
-                                              Environment.NewLine + "Firm ID : " +
-                                              Environment.NewLine + "Phone Number : " +
-                                              Environment.NewLine + "Email ID : " ,
-                Subject = "FinancingPMS Firm Owner Registration Update"
-            };
+            //NotificationDetails notificationDetails = new NotificationDetails()
+            //{
+            //    NotificationType = NotificationType.FirmOwnerRegistration.ToString(),
+            //    Body = "Your Firm is successfully registered and please find your registration details below." +
+            //                                  Environment.NewLine + "Firm Name : " + 
+            //                                  Environment.NewLine + "Firm ID : " +
+            //                                  Environment.NewLine + "Phone Number : " +
+            //                                  Environment.NewLine + "Email ID : " ,
+            //    Subject = "FinancingPMS Firm Owner Registration Update"
+            //};
 
 
-            _notificationService.SendNotification(notificationDetails);
+            var response = _notificationService.SendNotification(notificationDetails);
+
+            return response;
         }
 
     }

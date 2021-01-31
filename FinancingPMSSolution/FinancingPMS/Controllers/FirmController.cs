@@ -13,7 +13,8 @@ using FinancingPMS.Logger;
 namespace FinancingPMS.Controllers
 {
     [ApiController]
-    [Route("api/[controller]")]
+    [ApiVersion("1")]
+    [Route("api/v{version:apiVersion}/[controller]")]
     public class FirmController : ControllerBase
     {
 
